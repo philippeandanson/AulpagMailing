@@ -3,15 +3,15 @@ using AulpagMailing.Models;
 using AulpagMailing.Services;
 using AulpagMailing.Views;
 using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using System;
-using System.Linq;
 using System.Windows.Input;
-using System.Threading.Tasks;
 
 namespace AulpagMailing.ViewModels
 {
@@ -452,6 +452,8 @@ namespace AulpagMailing.ViewModels
                 ListEnvoi.Clear();
                 ListEnvoi = Database.GetEnvoiMail(CurrentMailing.id_mailing);
                 EnvoiMail.Mail(ListEnvoi, CurrentMailing,PiecesJointes,CurrentSmtp) ;
+                CurrentMailing.date_envoi=DateTime.Now;
+                Database.UpdateMailing(CurrentMailing);
             });
         }
 

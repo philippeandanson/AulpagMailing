@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using AulpagMailing.Data;
 using AulpagMailing.Models;
 
 namespace AulpagMailing.Services
@@ -50,9 +51,14 @@ namespace AulpagMailing.Services
                             Attachment PJ = new Attachment(item.piece);
                             message.Attachments.Add(PJ);
                         }
-                        smtpServer.Send(message);                  
+                        smtpServer.Send(message);
+                     //   destinataire.date_envoi = DateTime.Now;
+                     //   Database.UpdateEnvoiFromEmail(destinataire);
                     }
+
+             
                     return true;
+                  
                 }
                 catch (Exception e)
                 {
