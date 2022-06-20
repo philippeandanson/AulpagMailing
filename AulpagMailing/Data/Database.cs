@@ -17,23 +17,6 @@ namespace AulpagMailing.Data
 
         private static readonly object locker = new object();
 
-        public static int UpdateMailing(mailings item)
-        {
-
-            lock (locker)
-            {
-                int? id = item.id_mailing;
-                using (var db = new BaseContext())
-                {
-
-                    db.mailings.AddOrUpdate(item);
-                    db.SaveChanges();
-                   return item.id_mailing; // Yes it's here
-                   
-                }
-            }
-        }
-
         public static ObservableCollection<mailings> ReadMailing
         {
             get
@@ -285,21 +268,7 @@ namespace AulpagMailing.Data
                 }
             }
         }
-
-        public static void  UpdateSmtp(Smtp item)
-        {
-            lock (locker)
-            {
-                using (var db = new BaseContext())
-                {
-                    db.smtps.AddOrUpdate(item);
-                    try
-                    { db.SaveChanges(); }
-                    catch (Exception Ex) { }
-                }
-            }
-        }
-
+     
         public static void  ImportDestinataire(IEnumerable<Destinataires_export> FromCsv)
         {
             var destinataires = GetDestinataires_All;
@@ -366,6 +335,35 @@ namespace AulpagMailing.Data
                     catch (Exception Ex)
                     {
                     }
+                }
+            }
+        }
+
+        public static void UpdateSmtp(Smtp item)
+        {
+            lock (locker)
+            {
+                using (var db = new BaseContext())
+                {
+                    db.smtps.AddOrUpdate(item);
+                    try
+                    { db.SaveChanges(); }
+                    catch (Exception Ex) { }
+                }
+            }
+        }
+
+        public static int UpdateMailing(mailings item)
+        {
+
+            lock (locker)
+            {
+                int? id = item.id_mailing;
+                using (var db = new BaseContext())
+                {
+                    db.mailings.AddOrUpdate(item);
+                    db.SaveChanges();
+                    return item.id_mailing; // Yes it's here
                 }
             }
         }

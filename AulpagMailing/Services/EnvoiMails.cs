@@ -62,11 +62,12 @@ namespace AulpagMailing.Services
 
             });
         }
-/*
-        smtpClient.Host = "smtp.gmail.com";
-                smtpClient.Port = 587;             
-                "philippe.andanson@gmail.com", "qblivxkbtmadaatj
-*/
+
+    /*
+            smtpClient.Host = "smtp.gmail.com";
+            smtpClient.Port = 587;             
+            "philippe.andanson@gmail.com", "qblivxkbtmadaatj
+    */
 
     }
 }

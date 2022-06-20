@@ -144,11 +144,14 @@ namespace AulpagMailing.ViewModels
                 }
                else               
                 {
-                    bt.Onglet3IsVisible = "Hidden";
-                    // Mise à jour BDD
-                    int key = Database.UpdateMailing(CurrentMailing);   // Récupère la clé pour les nouveaux enregistrements
-                    SaveDossierListEnvoi(key);
+                    if (!string.IsNullOrEmpty(CurrentMailing.objet_mailing))
+                    {
+                        // Mise à jour BDD
+                        int key = Database.UpdateMailing(CurrentMailing);   // Récupère la clé pour les nouveaux enregistrements
+                        SaveDossierListEnvoi(key);
+                    }
                     //--------------------------------------
+                    bt.Onglet3IsVisible = "Hidden";
                     Bt.Fiche_Selectionnes = false;
                     GetDestinatairesSelection();
                     GetListEnvoi();
@@ -339,7 +342,7 @@ namespace AulpagMailing.ViewModels
             });
          SaveCurrentEmailCommand  = new RelayCommand(x =>
             {
-                if (CurrentMailing.objet_mailing is null)
+                if (string.IsNullOrEmpty(CurrentMailing.objet_mailing))
                 {
                     MessageBox.Show("Vous n'avez pas enregistré d'objet");
                 }
@@ -470,7 +473,9 @@ namespace AulpagMailing.ViewModels
         }   // Filtre les destinataires
         private void SaveDossier()
         {
-           
+
+            if (string.IsNullOrEmpty(CurrentMailing.objet_mailing))
+              {
                 // CourielChecked is true => type_mailing - 1=mail 2=Sms
                 CurrentMailing.type_mailing = CourielChecked == true ? 1 : 2;
                 CurrentMailing.date_creation = DateTime.Now;
@@ -478,9 +483,10 @@ namespace AulpagMailing.ViewModels
                 // Mise à jour BDD
                 int key = Database.UpdateMailing(CurrentMailing);   // Récupère la clé pour les nouveaux enregistrements
                 SaveDossierListEnvoi(key);
+          
                 //--------------------------------------
-         
-        
+
+             }
             // raz Dossier courant / Liste des destinataires 
             CurrentMailing = new mailings();
             ListEnvoi.Clear();
