@@ -30,7 +30,7 @@
             <RowDefinition Height="319*"/>
         </Grid.RowDefinitions>
         <TabControl x:Name="tabControl" SelectedIndex="{Binding SelectedIndex}" Margin="0,0,24,0"
-                    HorizontalAlignment="Right" Width="1301" Grid.RowSpan="2" >
+                    HorizontalAlignment="Right" Width="1300" Grid.RowSpan="2" >
             <TabItem Header="Courriel" Margin="0,0,-100,0">
                 <Grid>
                     <Grid.Resources>
@@ -60,7 +60,8 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130"/>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="230"/>
+                        <ColumnDefinition Width="20"/>
                     </Grid.ColumnDefinitions>
                     <!-- ligne 0 -->
                     <StackPanel    Grid.Column="1"   Orientation="Horizontal">
@@ -69,10 +70,10 @@
                     </StackPanel>
                     <!-- ligne 1 -->
                     <Label   Margin="67,0,5,0"  Grid.Row="1"   Content="Objet:" />
-                    <TextBox Margin="0,5,10,5" Grid.Row="1" Grid.Column="1"  Grid.ColumnSpan="2"  Text="{Binding CurrentMailing.objet_mailing}"   />
+                    <TextBox Margin="0,5,10,5" Grid.Row="1" Grid.Column="1"  Grid.ColumnSpan="3"  Text="{Binding CurrentMailing.objet_mailing}"   />
                     <!-- ligne 1 -->
                     <!-- This tool bar contains all the editing buttons. -->
-                    <Border BorderBrush="BlueViolet" BorderThickness="1" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,10,0">
+                    <Border BorderBrush="BlueViolet" BorderThickness="1" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,10,0">
                         <ToolBar Grid.Row="2" Grid.Column="1"   Name="mainToolBar"  DockPanel.Dock="Top" Margin="0,0,0,0" >
 
                             <!-- Font family combo box  -->
@@ -197,7 +198,7 @@
                             <TextBlock><Run Text="Pièces jointes"/></TextBlock>
                         </StackPanel>
                     </Button>
-                    <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"  Orientation="Horizontal" Margin="0,4,4,0">
+                    <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"  Orientation="Horizontal" Margin="0,4,4,0">
 
                         <!-- ligne 4   -->
                         <ListView x:Name="PjBox"  ItemsSource="{Binding PiecesJointes}"   
@@ -242,8 +243,8 @@
                         <!-- ligne 4 -->
                     </StackPanel>
                     <!-- Affichage des destinataires -->
-                    <TextBlock Grid.Row="2" Grid.Column="2" Text="Destinataires" Margin="42,5,38,0"/>
-                    <Border BorderBrush="BlueViolet" BorderThickness="0.5" Grid.Row="3" Grid.Column="3" Margin="0,0,10,0" >
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="Destinataires" Margin="42,5,18,0"/>
+                    <Border BorderBrush="BlueViolet" BorderThickness="0.5" Grid.Row="3" Grid.Column="2" Margin="0,0,10,0" Grid.ColumnSpan="2" >
                         <ListView  ItemsSource="{Binding ListEnvoi}" 
                       SelectedItem="{Binding CurrentListEnvoi}" IsSynchronizedWithCurrentItem="True"       
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
@@ -379,18 +380,18 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel>
                         <StackPanel Height="375">
-                        <TextBlock  Text="Smpt actif: ">
+                            <TextBlock  Text="Smpt actif: ">
                                 <TextBlock Text="{Binding CurrentSmtp.host}"   Foreground="Red" />
                         </TextBlock>
                         </StackPanel>
                         <StackPanel  Visibility="{Binding Bt.IsEnvoye}" >
                             <Button Margin="20,0,20,20"  Background="White" BorderBrush="White" Command="{Binding SendCommand}"   >
-                            <StackPanel>
-                                <Image Source="/Images/envoiCourriel-96.png" Height="40"   />
-                                <TextBlock><Run Text="Envoyer"/></TextBlock>
-                            </StackPanel>
-                        </Button>
-                      </StackPanel>
+                                <StackPanel>
+                                    <Image Source="/Images/envoiCourriel-96.png" Height="40"   />
+                                    <TextBlock><Run Text="Envoyer"/></TextBlock>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
 
                     </StackPanel>
                     <ListView x:Name="lvUsers4" Grid.Column="1" ItemsSource="{Binding ListEnvoi}" 
@@ -431,10 +432,40 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-      
+
                 </Grid>
             </TabItem>
-            <TabItem Header="Paramtres" Margin="895,-2,-928,0" >
+            <TabItem Header="Documents envoyés" Margin="600,-2,-700,0" >
+                <Grid  ShowGridLines="True" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="230"/>
+                        <ColumnDefinition Width="20"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,4,0,26" Grid.RowSpan="2"   >
+                        <Label   Margin="67,10,5,10" Grid.Row="3"  Content="Sujet:" Height="90"/>
+                        <Button  Margin="20,0,20,20" Background="White" BorderBrush="White"  
+                          Command="{Binding ListCommand}"     >
+                            <StackPanel>
+                                <Image Source="/Images/List-Icon.svg.png" Height="40"   />
+                                <TextBlock><Run Text="Liste documents"/></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <TextBlock Grid.Row="3"  Grid.Column="1"  FontSize="35" ><Run/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run Text="&#x9;"/><Run Text="ONGLET EST EN COURS DE DEVELOPPEMENT"/></TextBlock>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Paramtres" Margin="700,-2,-798,0" >
+
                 <StackPanel>
                     <StackPanel Height="500">
                         <ListView x:Name="lvsmtp"                                  
@@ -556,6 +587,7 @@
                     </Grid>
                 </StackPanel>
             </TabItem>
+           
         </TabControl>
     </Grid>
 </Window>

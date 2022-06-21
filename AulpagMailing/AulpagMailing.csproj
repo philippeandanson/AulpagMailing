@@ -409,10 +409,15 @@
     <Compile Include="Migrations\202206190644168_maj_smtp.designer.cs">
       <DependentUpon>202206190644168_maj_smtp.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202206211546189_theme.cs" />
+    <Compile Include="Migrations\202206211546189_theme.designer.cs">
+      <DependentUpon>202206211546189_theme.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Boutons.cs" />
     <Compile Include="Models\destinataires.cs" />
     <Compile Include="Models\Smtp.cs" />
+    <Compile Include="Models\Themes.cs" />
     <Compile Include="Services\EnvoiMails.cs" />
     <Compile Include="Services\FichiersCsv.cs" />
     <Compile Include="Services\ISimpleLoader.cs" />
@@ -476,6 +481,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202206190644168_maj_smtp.resx">
       <DependentUpon>202206190644168_maj_smtp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202206211546189_theme.resx">
+      <DependentUpon>202206211546189_theme.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

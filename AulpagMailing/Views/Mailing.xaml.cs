@@ -66,7 +66,7 @@ namespace AulpagMailing.Views
             textRange.ApplyPropertyValue(TextElement.FontSizeProperty, pixelSize);
         }
 
- 
+
     }
 }
 public class SortAdorner : Adorner

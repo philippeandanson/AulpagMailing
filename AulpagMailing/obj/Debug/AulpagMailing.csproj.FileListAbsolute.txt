@@ -142,5 +142,5 @@ C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Debug\
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Debug\AulpagMailing.exe
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Debug\AulpagMailing.pdb
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Debug\AulpagMailing.Migrations.smtp.resources
-C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Debug\AulpagMailing.csprojAssemblyReference.cache
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Debug\AulpagMailing.Migrations.maj_smtp.resources
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Debug\AulpagMailing.Migrations.theme.resources

@@ -11,6 +11,9 @@ namespace AulpagMailing.Data
         public DbSet<destinataires> destinataires { get; set; }
         public DbSet<Envoi>         envois        { get; set; }
         public DbSet<Smtp>          smtps         { get; set; }
+        public DbSet<Themes>        themes        { get; set; }
+
+
         public BaseContext() : base(nameOrConnectionString: "Default") { }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
