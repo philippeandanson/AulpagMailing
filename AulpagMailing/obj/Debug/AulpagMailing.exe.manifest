@@ -66,14 +66,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AulpagMailing.exe" size="370144">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AulpagMailing.exe" size="371680">
       <assemblyIdentity name="AulpagMailing" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Tvjn1eoO9dPr5x0I/Bj2YXUQSiwnrnIP3zTzKs514es=</dsig:DigestValue>
+        <dsig:DigestValue>GcEcvIGdJ+413tSkd83QKvLondS4+grWj/baprxU960=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

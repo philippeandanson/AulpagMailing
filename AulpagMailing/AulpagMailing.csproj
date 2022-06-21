@@ -427,6 +427,9 @@
     <Compile Include="ViewModels\FicheDestinataireViewModel.cs" />
     <Compile Include="ViewModels\MailingsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\DocumentsEnvoyes.xaml.cs">
+      <DependentUpon>DocumentsEnvoyes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DocumentsList.xaml.cs">
       <DependentUpon>DocumentsList.xaml</DependentUpon>
     </Compile>
@@ -442,6 +445,10 @@
     </Compile>
     <Compile Include="Data\Connexion.cs" />
     <Compile Include="Data\Database.cs" />
+    <Page Include="Views\DocumentsEnvoyes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DocumentsList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
