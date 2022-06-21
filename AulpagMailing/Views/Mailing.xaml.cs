@@ -66,10 +66,7 @@ namespace AulpagMailing.Views
             textRange.ApplyPropertyValue(TextElement.FontSizeProperty, pixelSize);
         }
 
-        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+ 
     }
 }
 public class SortAdorner : Adorner

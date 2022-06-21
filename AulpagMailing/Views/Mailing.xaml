@@ -25,8 +25,12 @@
     </i:Interaction.Triggers>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="350*"/>
+            <RowDefinition Height="319*"/>
+        </Grid.RowDefinitions>
         <TabControl x:Name="tabControl" SelectedIndex="{Binding SelectedIndex}" Margin="0,0,24,0"
-                    HorizontalAlignment="Right" Width="1301" >
+                    HorizontalAlignment="Right" Width="1301" Grid.RowSpan="2" >
             <TabItem Header="Courriel" Margin="0,0,-100,0">
                 <Grid>
                     <Grid.Resources>
@@ -373,12 +377,22 @@
                         <ColumnDefinition Width="182*"/>
                         <ColumnDefinition Width="1073*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Margin="20,0,20,20"  Background="White" BorderBrush="White" Command="{Binding SendCommand}"  >
-                        <StackPanel>
-                            <Image Source="/Images/envoiCourriel-96.png" Height="40"   />
-                            <TextBlock><Run Text="Envoyer"/></TextBlock>
+                    <StackPanel>
+                        <StackPanel Height="375">
+                        <TextBlock  Text="Smpt actif: ">
+                                <TextBlock Text="{Binding CurrentSmtp.host}"   Foreground="Red" />
+                        </TextBlock>
                         </StackPanel>
-                    </Button>
+                        <StackPanel  Visibility="{Binding Bt.IsEnvoye}" >
+                            <Button Margin="20,0,20,20"  Background="White" BorderBrush="White" Command="{Binding SendCommand}"   >
+                            <StackPanel>
+                                <Image Source="/Images/envoiCourriel-96.png" Height="40"   />
+                                <TextBlock><Run Text="Envoyer"/></TextBlock>
+                            </StackPanel>
+                        </Button>
+                      </StackPanel>
+
+                    </StackPanel>
                     <ListView x:Name="lvUsers4" Grid.Column="1" ItemsSource="{Binding ListEnvoi}" 
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       ScrollViewer.CanContentScroll="False" Grid.ColumnSpan="2">
@@ -417,7 +431,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-
+      
                 </Grid>
             </TabItem>
             <TabItem Header="Paramtres" Margin="895,-2,-928,0" >

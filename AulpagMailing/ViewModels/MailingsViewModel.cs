@@ -75,7 +75,6 @@ namespace AulpagMailing.ViewModels
         public ObservableCollection<pjs>           PiecesJointes     { get; set; }
         public ObservableCollection<Smtp>          ListSmtp          { get; set; }
 
-
         #region   Gestion des boutons
         public bool CourielChecked { get; set; } = true;
         public bool SmsChecked     { get; set; }
@@ -150,6 +149,8 @@ namespace AulpagMailing.ViewModels
                         int key = Database.UpdateMailing(CurrentMailing);   // Récupère la clé pour les nouveaux enregistrements
                         SaveDossierListEnvoi(key);
                     }
+
+                    if (CurrentMailing.date_envoi.Ticks == 0)  Bt.IsEnvoye = "Visible";else Bt.IsEnvoye = "Hidden";
                     //--------------------------------------
                     bt.Onglet3IsVisible = "Hidden";
                     Bt.Fiche_Selectionnes = false;
@@ -448,12 +449,13 @@ namespace AulpagMailing.ViewModels
             });
          SendCommand              = new RelayCommand(x =>
             {
-
+                
                 ListEnvoi.Clear();
                 ListEnvoi = Database.GetEnvoiMail(CurrentMailing.id_mailing);
                 EnvoiMail.Mail(ListEnvoi, CurrentMailing,PiecesJointes,CurrentSmtp) ;
                 CurrentMailing.date_envoi=DateTime.Now;
                 Database.UpdateMailing(CurrentMailing);
+                bt.Onglet3IsVisible = "Hidden";
             });
         }
 

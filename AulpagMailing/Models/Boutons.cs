@@ -12,6 +12,7 @@ namespace AulpagMailing.Models
         private bool fiche_Selectionee;
         private string recherche;
         private string onglet3IsVisible;
+        private string isEnvoye;
 
         public string Onglet3IsVisible
         { get { return onglet3IsVisible; } set { onglet3IsVisible = value; OnPropertyChanged(nameof(Onglet3IsVisible)); } }
@@ -29,6 +30,7 @@ namespace AulpagMailing.Models
         { get { return recherche; } set { recherche = value; OnPropertyChanged(nameof(Recherche)); } }
         public bool Fiche_Selectionnes
         {get { return fiche_Selectionee; } set {fiche_Selectionee = value;  OnPropertyChanged(nameof(Fiche_Selectionnes)); } }
+        public string IsEnvoye { get { return isEnvoye; } set { isEnvoye = value; OnPropertyChanged(nameof(IsEnvoye)); } }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
