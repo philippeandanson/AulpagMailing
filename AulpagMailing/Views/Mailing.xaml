@@ -275,7 +275,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Destinataires" Margin="100,0,-200,0" >
+            <TabItem Header="Destinataires" Margin="100,0,-200,0"  >
                 <Grid Margin="1,0,0,0">
                     <StackPanel>
                         <GroupBox Header="Recherche" Margin="10,10,1084,10" Padding="10">

@@ -95,9 +95,7 @@ namespace AulpagMailing.ViewModels
             }
             set
             {
-                currentSmtp = value;
-               // OnPropertyChanged("CurrentSmtp");
-               // OnPropertyChanged("ListSmtp");
+                currentSmtp = value;        
                 SetSmtpActif();              
             }
         }
@@ -152,7 +150,7 @@ namespace AulpagMailing.ViewModels
 
                     if (CurrentMailing.date_envoi.Ticks == 0)  Bt.IsEnvoye = "Visible";else Bt.IsEnvoye = "Hidden";
                     //--------------------------------------
-                    bt.Onglet3IsVisible = "Hidden";
+                    Bt.Onglet3IsVisible = "Hidden";
                     Bt.Fiche_Selectionnes = false;
                     GetDestinatairesSelection();
                     GetListEnvoi();
@@ -340,6 +338,7 @@ namespace AulpagMailing.ViewModels
                 foreach (var item in ListDestinataires) item.selected = false;
                 OnPropertyChanged(nameof(ListDestinataires));
                 GetEmailFromList();
+                if (CurrentMailing.date_envoi.Ticks == 0) Bt.IsEnvoye = "Visible"; else Bt.IsEnvoye = "Hidden";
             });
          SaveCurrentEmailCommand  = new RelayCommand(x =>
             {
@@ -478,9 +477,9 @@ namespace AulpagMailing.ViewModels
         private void SaveDossier()
         {
 
-            if (string.IsNullOrEmpty(CurrentMailing.objet_mailing))
+            if (!string.IsNullOrEmpty(CurrentMailing.objet_mailing)  && CurrentMailing.date_envoi.Ticks==0)
               {
-                // CourielChecked is true => type_mailing - 1=mail 2=Sms
+               // CourielChecked is true => type_mailing - 1=mail 2 = Sms;
                 CurrentMailing.type_mailing = CourielChecked == true ? 1 : 2;
                 CurrentMailing.date_creation = DateTime.Now;
 
