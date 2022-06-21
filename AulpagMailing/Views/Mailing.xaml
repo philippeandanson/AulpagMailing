@@ -29,8 +29,7 @@
             <RowDefinition Height="350*"/>
             <RowDefinition Height="319*"/>
         </Grid.RowDefinitions>
-        <TabControl x:Name="tabControl" SelectedIndex="{Binding SelectedIndex}" Margin="0,0,24,0"
-                    HorizontalAlignment="Right" Width="1300" Grid.RowSpan="2" >
+        <TabControl x:Name="tabControl" SelectedIndex="{Binding SelectedIndex}" Margin="0,0,25,0" HorizontalAlignment="Right" Width="1300" Grid.RowSpan="2" >
             <TabItem Header="Courriel" Margin="0,0,-100,0">
                 <Grid>
                     <Grid.Resources>
@@ -587,7 +586,6 @@
                     </Grid>
                 </StackPanel>
             </TabItem>
-           
         </TabControl>
     </Grid>
 </Window>
