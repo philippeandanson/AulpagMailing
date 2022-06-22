@@ -453,7 +453,7 @@
                     <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,4,0,26" Grid.RowSpan="2"   >
                         <Label   Margin="67,10,5,10" Grid.Row="3"  Content="Sujet:" Height="90"/>
                         <Button  Margin="20,0,20,20" Background="White" BorderBrush="White"  
-                          Command="{Binding ListCommand}"     >
+                          Command="{Binding ListCommand2}"     >
                             <StackPanel>
                                 <Image Source="/Images/List-Icon.svg.png" Height="40"   />
                                 <TextBlock><Run Text="Liste documents"/></TextBlock>

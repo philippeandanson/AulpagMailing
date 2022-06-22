@@ -12,9 +12,7 @@ namespace AulpagMailing.Views
     /// Logique d'interaction pour mailing.xaml
     /// </summary>
     public partial class Mailing : Window
-    {
-       
-
+    {       
         public Mailing()
         {
             InitializeComponent();      
@@ -28,7 +26,6 @@ namespace AulpagMailing.Views
             FontSizeCombo.Items.Add("36");
             FontSizeCombo.Items.Add("42");
             FontSizeCombo.SelectedIndex = 2;
-
             FontFamilyCombo.SelectedIndex = 6;
       }
 

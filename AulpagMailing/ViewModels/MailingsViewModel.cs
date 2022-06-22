@@ -16,7 +16,6 @@ using System.Windows.Input;
 namespace AulpagMailing.ViewModels
 {
 
-
     public  class MailingsViewModel : INotifyPropertyChanged
     {
 
@@ -32,6 +31,7 @@ namespace AulpagMailing.ViewModels
         public RelayCommand SendCommand              { get; }
         public RelayCommand PjCommand                { get; }
         public RelayCommand ListCommand              { get; }
+        public RelayCommand ListCommand2 { get; }
         public RelayCommand NewDestinataireCommand   { get; }
         public RelayCommand PrepareCommand           { get; }
         public RelayCommand SignatureCommand         { get; }
@@ -71,7 +71,12 @@ namespace AulpagMailing.ViewModels
         public ObservableCollection<destinataires> ListDestinataires { get; set; }
         public ObservableCollection<Envoi>         ListEnvoi         { get; set; }      
         public CollectionView                      FiltreView        { get; set; }
-        public ObservableCollection<mailings>      MailingsList      { get; set; }
+        private ObservableCollection<mailings>     mailingsList;
+        public ObservableCollection<mailings>      MailingsList
+        {
+            get { return mailingsList; }
+            set { mailingsList = value; OnPropertyChanged(nameof(MailingsList)); }
+        }
         public ObservableCollection<pjs>           PiecesJointes     { get; set; }
         public ObservableCollection<Smtp>          ListSmtp          { get; set; }
 
@@ -86,7 +91,6 @@ namespace AulpagMailing.ViewModels
         private Envoi currentListEnvoi;
         private Smtp currentSmtp;
        
-
         public Smtp CurrentSmtp
         {
             get
@@ -206,8 +210,7 @@ namespace AulpagMailing.ViewModels
 
         public MailingsViewModel()
         {
-
-         #region initialisation
+            #region initialisation
             bt = new Boutons();
             bt.Fiche_Selectionnes = true;
             bt.Recherche = "";
@@ -216,8 +219,7 @@ namespace AulpagMailing.ViewModels
             FiltreView = (CollectionView)CollectionViewSource.GetDefaultView(ListDestinataires);
             FiltreView.Filter = Contains;
             CurrentMailing = new mailings();
-            CurrentSmtp = (Smtp)Database.GetSmtp.FirstOrDefault(x => x.actif == true); // Récupère le Smtp actif
-            MailingsList = Database.ReadMailing;
+            CurrentSmtp = (Smtp)Database.GetSmtp.FirstOrDefault(x => x.actif == true); // Récupère le Smtp actif          
             ListEnvoi = new ObservableCollection<Envoi>();
             Bt.Onglet3IsVisible = "Hidden";
             #endregion
@@ -331,15 +333,25 @@ namespace AulpagMailing.ViewModels
             });
          ListCommand              = new RelayCommand(x =>
             {
-                if (!string.IsNullOrEmpty(CurrentMailing.objet_mailing)) SaveDossier();
 
+                if (!string.IsNullOrEmpty(CurrentMailing.objet_mailing)) SaveDossier();
+                MailingsList = Database.ReadMailing;
+                MailingsList = new ObservableCollection<mailings>( mailingsList.Where(w => w.date_envoi.Ticks==0));
+            
+                Bt.IsEnvoye = "Visible";
                 CloseTrigger2 = false;
                 new DocumentsList(this).ShowDialog();
                 foreach (var item in ListDestinataires) item.selected = false;
                 OnPropertyChanged(nameof(ListDestinataires));
                 GetEmailFromList();
-                if (CurrentMailing.date_envoi.Ticks == 0) Bt.IsEnvoye = "Visible"; else Bt.IsEnvoye = "Hidden";
+              
             });
+         ListCommand2             = new RelayCommand(x => 
+          {
+              MailingsList = Database.ReadMailing;
+              MailingsList = new ObservableCollection<mailings>(mailingsList.Where(w => w.date_envoi.Ticks != 0));
+              new DocumentsEnvoyes(this).ShowDialog();
+          });
          SaveCurrentEmailCommand  = new RelayCommand(x =>
             {
                 if (string.IsNullOrEmpty(CurrentMailing.objet_mailing))

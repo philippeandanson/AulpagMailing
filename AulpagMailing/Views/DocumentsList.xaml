@@ -9,7 +9,7 @@
         xmlns:command="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="ListeView" Height="450" Width="600">
+        Title="Brouillons" Height="450" Width="600">
 
     <i:Interaction.Behaviors>
         <Helpers:CloseWindowBehavior CloseTrigger="{Binding CloseTrigger2}" />
