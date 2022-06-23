@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
 
 namespace AulpagMailing.Models
 {
@@ -19,6 +18,8 @@ namespace AulpagMailing.Models
        public DateTime        date_envoi     { get; set; }
        public int             type_mailing   { get; set; }
        public string          signature      { get; set; }
+       public int?            id_theme       { get; set; }
+    
 
         [ForeignKey("fk_mailing")]
         public List<Envoi> Items { get; set; }

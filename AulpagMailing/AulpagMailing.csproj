@@ -413,6 +413,10 @@
     <Compile Include="Migrations\202206211546189_theme.designer.cs">
       <DependentUpon>202206211546189_theme.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202206230234290_add_column.cs" />
+    <Compile Include="Migrations\202206230234290_add_column.designer.cs">
+      <DependentUpon>202206230234290_add_column.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Boutons.cs" />
     <Compile Include="Models\destinataires.cs" />
@@ -491,6 +495,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202206211546189_theme.resx">
       <DependentUpon>202206211546189_theme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202206230234290_add_column.resx">
+      <DependentUpon>202206230234290_add_column.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

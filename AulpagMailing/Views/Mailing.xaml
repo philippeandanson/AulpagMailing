@@ -172,7 +172,7 @@
                           Command="{Binding ListCommand}"     >
                             <StackPanel>
                                 <Image Source="/Images/List-Icon.svg.png" Height="40"   />
-                                <TextBlock><Run Text="Liste documents"/></TextBlock>
+                                <TextBlock><Run Text="Liste brouillons"/></TextBlock>
                             </StackPanel>
                         </Button>
                         <Button Margin="20,0,20,5"  Background="White" BorderBrush="White" 
@@ -456,7 +456,7 @@
                           Command="{Binding ListCommand2}"     >
                             <StackPanel>
                                 <Image Source="/Images/List-Icon.svg.png" Height="40"   />
-                                <TextBlock><Run Text="Liste documents"/></TextBlock>
+                                <TextBlock><Run Text="Liste envois"/></TextBlock>
                             </StackPanel>
                         </Button>
                     </StackPanel>
