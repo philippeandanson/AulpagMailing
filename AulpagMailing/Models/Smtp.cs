@@ -12,9 +12,10 @@ namespace AulpagMailing.Models
         private string _compte;
         private string _mdp;
         private bool? _actif;
-        
-        
+
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int idsmtp { get; set; }
         public string host   { get { return _host; } set { _host = value; OnPropertyChanged(nameof(host));}}
         public int port      { get { return _port; } set { _port = value; OnPropertyChanged(nameof(port)); }}    
         public string  compte  { get { return _compte; } set { _compte = value; OnPropertyChanged(nameof(compte)); }}
@@ -26,7 +27,6 @@ namespace AulpagMailing.Models
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
         }
     }
 }

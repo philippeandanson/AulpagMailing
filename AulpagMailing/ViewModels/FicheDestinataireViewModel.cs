@@ -1,4 +1,5 @@
 ﻿using AulpagMailing.Data;
+using AulpagMailing.Interfaces;
 using AulpagMailing.Models;
 using AulpagMailing.Services;
 using System.Collections.Generic;
@@ -78,21 +79,24 @@ namespace AulpagMailing.ViewModels
 
         public void SetParameter(destinataires parameter)
         {
-            CurrentDestinataire = parameter as destinataires;
-            switch  (CurrentDestinataire.categorie)
+            if (parameter != null)
+            {
+                CurrentDestinataire = parameter as destinataires;
+                switch (CurrentDestinataire.categorie)
                 {
 
-                case 1:
-                    SelectedCategorie = "Usager";
-                    break;
-                case 2:
-                    SelectedCategorie = "Personalité";
-                    break;
-                case 3:
-                    SelectedCategorie = "Presse";
-                    break;
+                    case 1:
+                        SelectedCategorie = "Usager";
+                        break;
+                    case 2:
+                        SelectedCategorie = "Personalité";
+                        break;
+                    case 3:
+                        SelectedCategorie = "Presse";
+                        break;
                 }
-            OnPropertyChanged("CurrentInfo");
+                OnPropertyChanged("CurrentInfo");
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

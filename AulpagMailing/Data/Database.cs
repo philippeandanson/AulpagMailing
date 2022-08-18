@@ -12,25 +12,162 @@ namespace AulpagMailing.Data
 {
     public class Database
     {
-        static string connetionString = "provider = PCSoft.HFSQL; initial catalog = parisgra-02; data source = paris-granville.org;User ID=parisgra; password=0ftH1EkU5bH52QFh3B "; //+  "extended properties = 'Language=ISO-8859-1'";        
-        static OleDbConnection cnn = new OleDbConnection(connetionString);
-
+         static string connetionString = "provider = PCSoft.HFSQL; initial catalog = parisgra-02; data source = paris-granville.org;User ID=parisgra; password=0ftH1EkU5bH52QFh3B "; //+  "extended properties = 'Language=ISO-8859-1'";        
+         public static OleDbConnection cnn = new OleDbConnection(connetionString);
+ 
         private static readonly object locker = new object();
+
+        public class test
+        {
+            
+            public int id_mailing { get; set; }
+            public string objet_mailing { get; set; }
+            public string contenu { get; set; }
+            public DateTime date_creation { get; set; }
+            public DateTime date_envoi { get; set; }
+            public int type_mailing { get; set; }
+            public string signature { get; set; }
+            public int? id_theme { get; set; }         
+            public int envoye { get; set; }      
+            public int reste { get; set; }          
+            public int total { get; set; }         
+            public List<Envoi> Items { get; set; }
+        }
 
         public static ObservableCollection<mailings> ReadMailing
         {
             get
             {
 
+                string SQL = "	WITH sqltotal AS (	" +
+"	         SELECT envoi.fk_mailing,	" +
+"	            count(*) AS total	" +
+"	           FROM envoi	" +
+"	          GROUP BY envoi.fk_mailing	" +
+"	        ), sql1 AS (	" +
+"	         SELECT envoi.fk_mailing,	" +
+"	            count(*) AS envoye	" +
+"	           FROM envoi	" +
+"	          WHERE envoi.date_envoi <> '-infinity'::timestamp without time zone	" +
+"	          GROUP BY envoi.fk_mailing	" +
+"	        ), sql2 AS (	" +
+"	         SELECT envoi.fk_mailing,	" +
+"	            count(*) AS reste	" +
+"	           FROM envoi	" +
+"	          WHERE envoi.date_envoi = '-infinity'::timestamp without time zone	" +
+"	          GROUP BY envoi.fk_mailing	" +
+"	        ), sql3 AS (	" +
+"	         SELECT a.fk_mailing,	" +
+"	                CASE	" +
+"	                    WHEN b.envoye IS NULL THEN 0::bigint	" +
+"	                    ELSE b.envoye	" +
+"	                END AS envoye,	" +
+"	                CASE	" +
+"	                    WHEN c.reste IS NULL THEN 0::bigint	" +
+"	                    ELSE c.reste	" +
+"	                END AS reste,	" +
+"	            a.total	" +
+"	           FROM sqltotal a	" +
+"	             LEFT JOIN sql1 b ON a.fk_mailing = b.fk_mailing	" +
+"	             LEFT JOIN sql2 c ON a.fk_mailing = c.fk_mailing	" +
+"	        ) " +
+"	         SELECT a.id_mailing,	" +
+"	            a.objet_mailing,	" +
+"	            a.contenu,	" +
+"	            a.date_creation,	" +
+"	            a.date_envoi,	" +
+"	            a.type_mailing,	" +
+"	            a.signature,	" +
+"	            a.id_theme,	" +
+"	            b.envoye,	" +
+"	            b.reste,	" +
+"	            b.total	" +
+"	           FROM mailings a	" +
+"	             LEFT JOIN sql3 b ON a.id_mailing = b.fk_mailing Order by a.id_mailing	";
+
                 lock (locker)
                 {
                     ObservableCollection<mailings> obj = new ObservableCollection<mailings>();
                     using (BaseContext context = new BaseContext())
                     {
-                        List<mailings> mailingsQuery = (from item in context.mailings orderby item.id_mailing select item).ToList();
-                        foreach (var t in mailingsQuery) obj.Add(t);
+                        List<liste_mailing> mailingsQuery = context.Database.SqlQuery<liste_mailing>(SQL).ToList<liste_mailing>();
+                        // List <mailings> mailingsQuery = context.Database.SqlQuery<mailings>(SQL).ToList<mailings>();                    
+                        foreach (var t in mailingsQuery)
+                        {
+                            
+                            obj.Add(new mailings()
+                            {
+                                id_mailing=t.id_mailing ,
+                                contenu=t.contenu,
+                                date_creation=t.date_creation,
+                                date_envoi=t.date_envoi,
+                                envoye=t.envoye,
+                                id_theme=t.id_theme,
+                                objet_mailing=t.objet_mailing,
+                                reste=t.reste,
+                                signature=t.signature,
+                                total=t.total,
+                                type_mailing=t.type_mailing
+                            });
+                        }
 
                         return obj;
+                    }
+                }
+
+            }
+        }
+
+        public static mailings GetLastMailing
+        {
+            get
+            {
+
+                lock (locker)
+                {
+                    mailings ml = new mailings();
+                   
+                    using (BaseContext context = new BaseContext())
+                    {
+
+                        int t = 0;
+                        try
+                        {
+                            t = context.mailings.Where(p => !string.IsNullOrEmpty(p.signature)).Select(x => x.id_mailing).Max();
+                            ml = context.mailings.Where(x => x.id_mailing == t).First();
+                        }
+                        catch { }
+
+                        return ml;
+                        
+                    }
+                }
+
+            }
+        }
+
+        public static pjs GetLastPjs
+        {
+            get
+            {
+
+                lock (locker)
+                {
+                    pjs piece = new pjs();
+
+                    using (BaseContext context = new BaseContext())
+                    {
+
+                        int t = 0;
+                        try
+                        {
+                            t = context.pieces.Select(x => x.fk_mailing).Max();
+                            piece = context.pieces.Where(x => x.fk_mailing == t).First();
+                        }
+                        catch { }
+
+                        return piece;
+
                     }
                 }
 
@@ -57,12 +194,76 @@ namespace AulpagMailing.Data
             }
         }
 
+        public static Smtp GetSmtpActif
+        {
+            get
+            {
+
+                lock (locker)
+                {
+                    ObservableCollection<Smtp> obj = new ObservableCollection<Smtp>();
+                    using (BaseContext context = new BaseContext())
+                    {
+                        List<Smtp> mailingsQuery = (from item in context.smtps orderby item.actif descending select item).ToList();
+                        Smtp smtp = mailingsQuery.Where(x => x.actif == true).First();
+
+                        return smtp;
+                    }
+                }
+
+            }
+        }
+
+        public static void DeleteSmtp(Smtp item)
+        {
+
+            lock (locker)
+            {
+                using (BaseContext db = new BaseContext())
+                {
+                    try
+                    {
+                        var entity = db.smtps.First(a => a.idsmtp == item.idsmtp);
+
+                        db.smtps.Remove(entity);
+
+                        db.SaveChanges();
+
+                    }
+
+                    catch (Exception Ex)
+                    {
+
+                    }
+                }
+
+            }
+        }
+
+        public static void UpdateSmtp(Smtp item)
+        {
+            lock (locker)
+            {
+                using (var db = new BaseContext())
+                {
+                    db.smtps.AddOrUpdate(item);
+                    try
+                    { 
+                        db.SaveChanges();
+                    }
+                    catch (Exception Ex) 
+                    { 
+                    }
+                }
+            }
+        }
+
         public static List<Destinataires_export> GetDestinataires
         {
             get
             {
 
-                string SQL = "SELECT  nom, prenom, civilité, email, categorie, adherent, titre  " +
+                string SQL = "SELECT  nom, prenom, civilité, email, categorie, titre  " +
                     "FROM public.destinataires order by categorie,nom";
                 lock (locker)
                 {
@@ -133,6 +334,22 @@ namespace AulpagMailing.Data
 
         }
 
+        public static destinataires GetFirstContact()
+        {
+
+            lock (locker)
+            {
+                using (BaseContext context = new BaseContext())
+                {
+                    int result = context.destinataires.Count();
+                    if (result == 0) return null;
+                    return context.destinataires.First();
+
+                }
+            }
+
+        }
+
         public static ObservableCollection<pjs> GetPiecesJointes(mailings mailing)
         {
             ObservableCollection<pjs> obj = new ObservableCollection<pjs>();
@@ -173,33 +390,7 @@ namespace AulpagMailing.Data
 
             }
         }
-
-        public static void  DeleteSmtp(Smtp item)
-        {
-
-            lock (locker)
-            {
-                using (BaseContext db = new BaseContext())
-                {
-                    try
-                    {
-                        var entity = db.smtps.First(a => a.host == item.host);
-
-                        db.smtps.Remove(entity);
-
-                        db.SaveChanges();
-
-                    }
-
-                    catch (Exception Ex)
-                    {
-
-                    }
-                }
-
-            }
-        }
-
+    
         public static void  DeletePiecesJointes(pjs item)
         {
 
@@ -222,9 +413,31 @@ namespace AulpagMailing.Data
             }
         }
 
+        public static void DeleteCurrentEnvoi(Envoi item)
+        {
+
+            lock (locker)
+            {
+                using (BaseContext db = new BaseContext())
+                {
+                    try
+                    {
+                        var entity = db.envois.First(a => a.fk_mailing == item.fk_mailing);
+                        db.envois.Remove(entity);
+
+                        db.SaveChanges();
+
+                    }
+
+                    catch (Exception Ex) { }
+                }
+
+            }
+        }
+
         public static void  DeleteLastPreparationEnvoi(int key)
         {
-            string SQL = "delete  from envoi where fk_mailing=" + key ;
+            string SQL = "delete  from envoi  where  date_envoi='-infinity' and  fk_mailing=" + key ;
 
             using (BaseContext db = new BaseContext())
             {
@@ -255,6 +468,26 @@ namespace AulpagMailing.Data
             }
         }
 
+        public static void  DeleteAllContacts()
+        {
+            lock (locker)
+            {
+                using (BaseContext db = new BaseContext())
+                {
+                    try
+                    {
+                        db.destinataires.RemoveRange(db.destinataires);
+                        db.SaveChanges();
+                    }
+
+                    catch (Exception Ex)
+                    {
+                    }
+                }
+
+            }
+        }
+
         public static void  UpdatePjAsync(pjs item)
         {
             lock (locker)
@@ -268,7 +501,21 @@ namespace AulpagMailing.Data
                 }
             }
         }
-     
+
+        public static void UpdateEnvoi(Envoi item)
+        {
+            lock (locker)
+            {
+                using (var db = new BaseContext())
+                {
+                    db.envois.AddOrUpdate(item);
+                    try
+                    { db.SaveChanges(); }
+                    catch (Exception Ex) { }
+                }
+            }
+        }
+
         public static void  ImportDestinataire(IEnumerable<Destinataires_export> FromCsv)
         {
             var destinataires = GetDestinataires_All;
@@ -282,7 +529,7 @@ namespace AulpagMailing.Data
                 {
                 var item_base = destinataires.FirstOrDefault(y => y.nom == item_csv.nom && y.prenom == item_csv.prenom);
                 if (item_base == null) item_base = new destinataires();
-                item_base.adherent = item_csv.adherent;
+                item_base.id_destinataire = item_csv.id_destinataire;
                 item_base.categorie = item_csv.categorie;
                 item_base.civilité = item_csv.civilité;
                 item_base.nom = item_csv.nom;
@@ -305,7 +552,7 @@ namespace AulpagMailing.Data
         {
             lock (locker)
             {
-                int? id = item.id_destinataire;
+                
                 using (var db = new BaseContext())
                 {                                  
                     db.destinataires.AddOrUpdate(item);
@@ -337,25 +584,10 @@ namespace AulpagMailing.Data
                     }
                 }
             }
-        }
+        }   
 
-        public static void UpdateSmtp(Smtp item)
+        public static int   UpdateMailing(mailings item)
         {
-            lock (locker)
-            {
-                using (var db = new BaseContext())
-                {
-                    db.smtps.AddOrUpdate(item);
-                    try
-                    { db.SaveChanges(); }
-                    catch (Exception Ex) { }
-                }
-            }
-        }
-
-        public static int UpdateMailing(mailings item)
-        {
-
             lock (locker)
             {
                 int? id = item.id_mailing;
@@ -365,6 +597,39 @@ namespace AulpagMailing.Data
                     db.SaveChanges();
                     return item.id_mailing; // Yes it's here
                 }
+            }
+        }
+
+        public static void UpdateParametres(parametres item)
+        {
+            lock (locker)
+            {
+            
+                using (var db = new BaseContext())
+                {
+                    db.parameters.AddOrUpdate(item);
+                    db.SaveChanges();
+                   
+                }
+            }
+        }
+
+    
+
+        public static List<parametres> GetParametres
+        {
+            get
+            {
+
+                lock (locker)
+                {
+                   
+                    using (BaseContext context = new BaseContext())
+                    {
+                       return (from item in context.parameters  select item).ToList();
+                    }
+                }
+
             }
         }
 
@@ -390,8 +655,7 @@ namespace AulpagMailing.Data
                       dt.categorie   = 1;
                       dt.civilité    = (string)reader.GetValue(16);
                       dt.prenom      = (string)reader.GetValue(17);
-                      dt.nom         = (string)reader.GetValue(18);
-                      dt.adherent    = true;                    
+                      dt.nom         = (string)reader.GetValue(18);                                   
                       db.destinataires.Add(dt);
                       db.SaveChanges();
 
@@ -437,7 +701,7 @@ namespace AulpagMailing.Data
                         dt.civilité = (string)reader.GetValue(16);
                         dt.prenom = (string)reader.GetValue(17);
                         dt.nom = (string)reader.GetValue(18);
-                        dt.adherent = true;
+                    
                         db.destinataires.Add(dt);
                         db.SaveChanges();
 
@@ -484,8 +748,7 @@ namespace AulpagMailing.Data
                         dt.civilité = (string)reader.GetValue(5);
                         dt.prenom = (string)reader.GetValue(4);
                         dt.nom = (string)reader.GetValue(3);
-                        dt.titre= (string)reader.GetValue(2);
-                        dt.adherent = false;
+                        dt.titre= (string)reader.GetValue(2);                   
                         db.destinataires.Add(dt);
                         db.SaveChanges();
 
@@ -507,6 +770,82 @@ namespace AulpagMailing.Data
             return await result;
 
         }
+        // Liste des adhérents
+        public static void UpdateAdherent()
+        {
+           // cnn.Open();
+            string RSql = "Select *  from Membre ";
+            OleDbCommand cmd = new OleDbCommand(RSql, cnn);
+            OleDbDataReader reader = cmd.ExecuteReader();
 
+            while (reader.Read())
+            {
+                if (reader.GetString(3) != "" && reader.GetBoolean(46) == false)
+                {
+
+                    destinataires contact = new destinataires()
+                    {
+                        id_destinataire = reader.GetInt32(0),
+                        civilité = reader.GetString(16),
+                        nom = reader.GetString(18),
+                        prenom = reader.GetString(17),
+                        email = reader.GetString(3),
+                        adresse = reader.GetString(6),
+                        ville = reader.GetString(9),
+                        cp = reader.GetString(8),
+                        debut = reader.GetDateTime(12),
+                        numadherent = reader.GetString(11),
+                        categorie = 1,
+                        collecte=DateTime.Now
+                    };
+
+                    List<destinataires> t = GetDestinataires_All.Where(x => x.id_destinataire == contact.id_destinataire).ToList();                 
+                    if (t.Count() != 0) contact.idcontact = t.FirstOrDefault(x => x.id_destinataire == contact.id_destinataire).idcontact;
+                   
+                    UpdateDestinataire(contact);
+                }
+              
+            }
+         //   cnn.Close();
+        }
+
+        public static void UpdateAdhesion()
+        {
+
+           
+            string RSql = "Select *  from membre_adhesion ";
+            OleDbCommand cmd = new OleDbCommand(RSql, cnn);
+            OleDbDataReader reader = cmd.ExecuteReader();
+
+            using (var db = new BaseContext())
+            {
+
+                while (reader.Read())
+                {
+                   
+                    Adhesion contact = new Adhesion()
+                    {
+                        idAdhesion  = reader.GetInt32(3),
+                        idMembre    = reader.GetInt32(0),
+                        categorie   = reader.GetString(1),
+                        montant     = reader.GetDecimal(2),
+                        dated       = reader.GetDateTime(5),
+                        datef       = reader.GetDateTime(6)
+                    };
+
+
+                    db.adhesions.AddOrUpdate(contact);
+                    try
+                    {db.SaveChanges();}
+                    catch (Exception Ex)  {}
+
+                }
+
+            }
+
+
+          
+
+        }
     }
 }

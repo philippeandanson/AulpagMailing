@@ -1,10 +1,15 @@
 ﻿using AulpagMailing.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Markup;
 using System.Windows.Media;
+
 
 namespace AulpagMailing.Views
 {
@@ -15,9 +20,22 @@ namespace AulpagMailing.Views
     {       
         public Mailing()
         {
+           
             InitializeComponent();      
             DataContext = new MailingsViewModel();
-            FontFamilyCombo.ItemsSource = Fonts.SystemFontFamilies;
+
+            var installedFontCollection = new System.Drawing.Text.InstalledFontCollection();
+
+            // Get the array of FontFamily objects.
+            var fontFamilies = installedFontCollection.Families;
+            foreach (var fontFamily in fontFamilies)
+            {
+                var mfont = new FontFamily(fontFamily.Name);
+                FontFamilyCombo.Items.Add(mfont);
+            }
+
+    //       FontFamilyCombo.ItemsSource = Fonts.SystemFontFamilies.OrderBy(fontFamily => fontFamily.Source);
+      
             FontSizeCombo.Items.Add("10");
             FontSizeCombo.Items.Add("12");
             FontSizeCombo.Items.Add("14");
@@ -25,9 +43,26 @@ namespace AulpagMailing.Views
             FontSizeCombo.Items.Add("24");
             FontSizeCombo.Items.Add("36");
             FontSizeCombo.Items.Add("42");
-            FontSizeCombo.SelectedIndex = 2;
-            FontFamilyCombo.SelectedIndex = 6;
+            foreach (var item in App.Staticparametres)
+            {
+                int a = 6;
+                switch (item.id_parametre)
+                {                  
+                    case 3:
+                        bool t = int.TryParse(item.parametre,out a) ;
+                        if (t) FontSizeCombo.SelectedIndex = int.Parse(item.parametre); else FontSizeCombo.SelectedIndex= 0;
+                        break;
+                    case 2:
+                        bool y = int.TryParse(item.parametre, out a);
+                        if (y) FontFamilyCombo.SelectedIndex = int.Parse(item.parametre); else FontFamilyCombo.SelectedIndex=0;
+                        break;
+                }
+            }
+                
       }
+
+
+  
 
         /// <summary>
         /// Changes the font family of selected text.
@@ -63,7 +98,7 @@ namespace AulpagMailing.Views
             textRange.ApplyPropertyValue(TextElement.FontSizeProperty, pixelSize);
         }
 
-
+  
     }
 }
 public class SortAdorner : Adorner
@@ -102,6 +137,25 @@ public class SortAdorner : Adorner
         drawingContext.DrawGeometry(Brushes.Black, null, geometry);
 
         drawingContext.Pop();
+    }
+
+    internal class FontUtilities
+    {
+        internal static IEnumerable<FontFamily> Families
+        {
+            get
+            {
+                foreach (FontFamily font in Fonts.SystemFontFamilies)
+                {
+                    yield return font;
+                }
+                foreach (FontFamily fontFamily in Fonts.GetFontFamilies(new
+                    Uri("pack://application:,,,/MyDllProject ;Component/Resources/")))
+                {
+                    yield return fontFamily;
+                }
+            }
+        }
     }
 }
 

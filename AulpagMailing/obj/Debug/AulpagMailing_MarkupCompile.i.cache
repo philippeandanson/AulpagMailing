@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\App.xaml
-4-1323100162
+8-1551885770
 
-471497550849
-179-1598926314
-Views\DocumentsEnvoyes.xaml;Views\DocumentsList.xaml;Views\FicheDestinataire.xaml;Views\Mailing.xaml;
+521511165702
+182-417594293
+Views\AutresParametres.xaml;Views\Contacts.xaml;Views\DocumentsEnvoyes.xaml;Views\DocumentsList.xaml;Views\FicheDestinataire.xaml;Views\Mailing.xaml;Views\MenuPrincipal.xaml;Views\Parametres.xaml;
 
-False
+True
 

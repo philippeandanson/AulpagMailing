@@ -3,7 +3,6 @@ using FileHelpers;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -35,16 +34,14 @@ namespace AulpagMailing.Services
                     temp.nom = item.nom;
                     temp.prenom = item.prenom;
                     temp.civilité = item.civilité;
-                    temp.email = item.email;
-                    temp.adherent = item.adherent;
+                    temp.email = item.email;                
                     temp.categorie = item.categorie;
                     temp.titre = item.titre;
                     csv.Add(temp);
 
                 } // end foreach
 
-                //give file a name and header text
-                //   engine.HeaderText = "Nom;Prénom;Civilité;Email;Adhérent;Catégorie;titre";
+             
 
                 //save file locally
                 engine.WriteFile(filename, csv);
@@ -59,7 +56,7 @@ namespace AulpagMailing.Services
             foreach(var item  in t)
             {
                 string[] data = item.Split(';');
-                table.Add(  new Destinataires_export(data[0], data[1], data[2], data[3], Convert.ToInt32(data[4]), Convert.ToBoolean(data[5]), data[6]));
+                table.Add(  new Destinataires_export(Convert.ToInt32(data[0]),data[1], data[2], data[3], data[4], Convert.ToInt32(data[5]), data[6]));
             }
             return table;         
         }

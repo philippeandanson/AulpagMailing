@@ -9,7 +9,8 @@
         xmlns:command="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Brouillons" Height="450" Width="600">
+        ResizeMode="NoResize" 
+        Title="Historiques" Height="450" Width="900">
 
     <i:Interaction.Behaviors>
         <Helpers:CloseWindowBehavior CloseTrigger="{Binding CloseTrigger2}" />
@@ -129,17 +130,37 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+                        <GridViewColumn Header="Nb total" Width="70">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding total }" TextAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Nb envoyés" Width="70">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding envoye }" TextAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="A envoyer" Width="70">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding reste }" TextAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
         </StackPanel>
-        <StackPanel Grid.Row="1" >
-            <Button   Command="{GridLines:Binding CloseWindow2Command}"   >
-                <StackPanel>
-                    <Image Source="/Images/nouveau.png" Height="45"   />
-                    <TextBlock><Run Text="Nouveau document"/></TextBlock>
-                </StackPanel>
-            </Button>
-        </StackPanel>
+        
     </Grid>
 </Window>

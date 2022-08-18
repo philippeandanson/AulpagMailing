@@ -18,7 +18,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>D:\BddWindev\AulpagMailing\</PublishUrl>
+    <PublishUrl>D:\BddWindev\AulpagMailing\Install\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -28,8 +28,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ProductName>AulpagMailing</ProductName>
+    <PublisherName>Expert BI</PublisherName>
+    <SuiteName>Aulpag</SuiteName>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>2.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -64,6 +67,12 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ActiproSoftware.Editors.Wpf, Version=22.1.1.0, Culture=neutral, PublicKeyToken=36ff2196ab5654b9, processorArchitecture=MSIL">
@@ -344,6 +353,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -360,9 +370,11 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
     <Reference Include="Xceed.Wpf.AvalonDock, Version=4.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\packages\Extended.Wpf.Toolkit.4.3.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
@@ -389,48 +401,43 @@
     <Compile Include="Controls\RichTextBoxHelper.cs" />
     <Compile Include="Helpers\AdherentConverter.cs" />
     <Compile Include="Helpers\Behaviors.cs" />
+    <Compile Include="Helpers\BoolToVisibilityConverter.cs" />
     <Compile Include="Helpers\CategorieConverter.cs" />
     <Compile Include="Helpers\Converter.cs" />
     <Compile Include="Helpers\DateNulleConverter.cs" />
+    <Compile Include="Helpers\IMessageSender.cs" />
+    <Compile Include="Helpers\InverseBoolConverter.cs" />
+    <Compile Include="Helpers\MyXamlFormatter.cs" />
+    <Compile Include="Helpers\StatusConverter.cs" />
     <Compile Include="Helpers\Type_mailingConverter.cs" />
-    <Compile Include="Migrations\202206071151187_init.cs" />
-    <Compile Include="Migrations\202206071151187_init.designer.cs">
-      <DependentUpon>202206071151187_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202206101006179_tb_envoi.cs" />
-    <Compile Include="Migrations\202206101006179_tb_envoi.designer.cs">
-      <DependentUpon>202206101006179_tb_envoi.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202206181513299_smtp.cs" />
-    <Compile Include="Migrations\202206181513299_smtp.designer.cs">
-      <DependentUpon>202206181513299_smtp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202206190644168_maj_smtp.cs" />
-    <Compile Include="Migrations\202206190644168_maj_smtp.designer.cs">
-      <DependentUpon>202206190644168_maj_smtp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202206211546189_theme.cs" />
-    <Compile Include="Migrations\202206211546189_theme.designer.cs">
-      <DependentUpon>202206211546189_theme.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202206230234290_add_column.cs" />
-    <Compile Include="Migrations\202206230234290_add_column.designer.cs">
-      <DependentUpon>202206230234290_add_column.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Boutons.cs" />
     <Compile Include="Models\destinataires.cs" />
+    <Compile Include="Models\Parametres.cs" />
+    <Compile Include="Models\Presse.cs" />
     <Compile Include="Models\Smtp.cs" />
     <Compile Include="Models\Themes.cs" />
     <Compile Include="Services\EnvoiMails.cs" />
     <Compile Include="Services\FichiersCsv.cs" />
     <Compile Include="Services\ISimpleLoader.cs" />
+    <Compile Include="Services\MainViewModel.cs" />
+    <Compile Include="Services\MessageCenter.cs" />
     <Compile Include="Services\RichTextService.cs" />
-    <Compile Include="Services\Iparameter.cs" />
+    <Compile Include="Interfaces\Iparameter.cs" />
     <Compile Include="Services\RelayCommand.cs" />
+    <Compile Include="Services\TestConnexionInrernet.cs" />
+    <Compile Include="ViewModels\ContactsViewModel.cs" />
     <Compile Include="ViewModels\FicheDestinataireViewModel.cs" />
     <Compile Include="ViewModels\MailingsViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\AutresParametresViewModel.cs" />
+    <Compile Include="ViewModels\SmtpViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\AutresParametres.xaml.cs">
+      <DependentUpon>AutresParametres.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contacts.xaml.cs">
+      <DependentUpon>Contacts.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DocumentsEnvoyes.xaml.cs">
       <DependentUpon>DocumentsEnvoyes.xaml</DependentUpon>
     </Compile>
@@ -449,6 +456,20 @@
     </Compile>
     <Compile Include="Data\Connexion.cs" />
     <Compile Include="Data\Database.cs" />
+    <Compile Include="Views\MenuPrincipal.xaml.cs">
+      <DependentUpon>MenuPrincipal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parametres.xaml.cs">
+      <DependentUpon>Parametres.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\AutresParametres.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contacts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DocumentsEnvoyes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -462,6 +483,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Mailing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MenuPrincipal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parametres.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -481,30 +510,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202206071151187_init.resx">
-      <DependentUpon>202206071151187_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202206101006179_tb_envoi.resx">
-      <DependentUpon>202206101006179_tb_envoi.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202206181513299_smtp.resx">
-      <DependentUpon>202206181513299_smtp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202206190644168_maj_smtp.resx">
-      <DependentUpon>202206190644168_maj_smtp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202206211546189_theme.resx">
-      <DependentUpon>202206211546189_theme.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202206230234290_add_column.resx">
-      <DependentUpon>202206230234290_add_column.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="AulpagMailing_TemporaryKey.pfx" />
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -591,6 +607,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\preparation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\valider.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\erreur.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets')" />

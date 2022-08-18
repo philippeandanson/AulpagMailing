@@ -6,18 +6,18 @@
         xmlns:Helpers="clr-namespace:AulpagMailing.Helpers"         
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:util="clr-namespace:AulpagMailing.Controls"
-        xmlns:command="http://www.galasoft.ch/mvvmlight"       
-        WindowStartupLocation="CenterScreen"
-       Title="Mailing" Height="700" Width="1350">
+        xmlns:command="http://www.galasoft.ch/mvvmlight"   
+    ResizeMode="CanResizeWithGrip"
+        Title="Mailing" Height="650" Width="1350"
+        Top="65"
+        Left="10" >
 
     <i:Interaction.Behaviors>
         <Helpers:CloseWindowBehavior CloseTrigger="{Binding CloseTrigger}" />
     </i:Interaction.Behaviors>
     <Window.Resources>
-        <Helpers:AdherentConverter    x:Key="adherent"  />
-        <Helpers:CategorieConverter   x:Key="categorie"  />
+        <Helpers:CategorieConverter          x:Key="categorie"  />
     </Window.Resources>
-
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <command:EventToCommand Command="{Binding WindowClosing}" PassEventArgsToCommand="True" />
@@ -29,7 +29,8 @@
             <RowDefinition Height="350*"/>
             <RowDefinition Height="319*"/>
         </Grid.RowDefinitions>
-        <TabControl x:Name="tabControl" SelectedIndex="{Binding SelectedIndex}" Margin="0,0,25,0" HorizontalAlignment="Right" Width="1300" Grid.RowSpan="2" >
+        <TabControl x:Name="tabControl" TabStripPlacement="Top"  SelectedIndex="{Binding SelectedIndex}" Margin="0,0,22,0" 
+                    HorizontalAlignment="Right" Width="1300" Grid.RowSpan="2"  >
             <TabItem Header="Courriel" Margin="0,0,-100,0">
                 <Grid>
                     <Grid.Resources>
@@ -65,19 +66,24 @@
                     <!-- ligne 0 -->
                     <StackPanel    Grid.Column="1"   Orientation="Horizontal">
                         <RadioButton  Margin="5" Content="Courriel"   IsChecked="{Binding CourielChecked}" />
-                        <RadioButton  Margin="5" Content="SMS"        IsChecked="{Binding SmsChecked}"       />
+                        <RadioButton  Margin="5" Content="SMS"        IsChecked="{Binding SmsChecked}" Visibility="Hidden"      />
                     </StackPanel>
                     <!-- ligne 1 -->
                     <Label   Margin="67,0,5,0"  Grid.Row="1"   Content="Objet:" />
-                    <TextBox Margin="0,5,10,5" Grid.Row="1" Grid.Column="1"  Grid.ColumnSpan="3"  Text="{Binding CurrentMailing.objet_mailing}"   />
+                    <TextBox Margin="0,5,10,5" Grid.Row="1" 
+                             Grid.Column="1"  Grid.ColumnSpan="3"  
+                             Text="{Binding CurrentMailing.objet_mailing}" 
+                             IsEnabled="{Binding IsZoneEnabled}"
+                             />
                     <!-- ligne 1 -->
                     <!-- This tool bar contains all the editing buttons. -->
+             
                     <Border BorderBrush="BlueViolet" BorderThickness="1" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,10,0">
                         <ToolBar Grid.Row="2" Grid.Column="1"   Name="mainToolBar"  DockPanel.Dock="Top" Margin="0,0,0,0" >
 
                             <!-- Font family combo box  -->
                             <ComboBox x:Name="FontFamilyCombo" Height="23" Width="100"
-                                      Margin="5,2,0,2" IsEditable="True" 
+                                       Margin="5,2,0,2" IsEditable="True"                                   
                                       SelectionChanged="OnFontFamilyComboSelectionChanged">
                                 <ComboBox.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -93,7 +99,6 @@
                             <!-- Font size combo box -->
                             <ComboBox x:Name="FontSizeCombo" Height="23" Width="40" Margin="5,2,5,2" IsEditable="True" 
                                       SelectionChanged="OnFontSizeComboSelectionChanged"  >
-
                             </ComboBox>
 
                             <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
@@ -158,36 +163,59 @@
                     <!-- ligne 3 -->
                     <toolkit:RichTextBox   x:Name="TextBox" Grid.Row="3" Grid.Column="1" BorderBrush="Gray" 
                             Text="{Binding CurrentMailing.contenu}" 
-                            ScrollViewer.VerticalScrollBarVisibility="Auto" RenderTransformOrigin="0.512,0.61"  >
+                            ScrollViewer.VerticalScrollBarVisibility="Auto" RenderTransformOrigin="0.512,0.61" 
+                                IsEnabled="{Binding IsZoneEnabled}"  >
                         <toolkit:RichTextBox.Resources>
                             <Style TargetType="{x:Type Paragraph}">
                                 <Setter Property="Margin" Value="0" />
                             </Style>
                         </toolkit:RichTextBox.Resources>
-
                     </toolkit:RichTextBox>
+                    <Label  Grid.Row="3" Grid.Column="1"
+                            FontSize="30"
+                            HorizontalAlignment="Center"
+                            VerticalContentAlignment="Bottom"
+                            Foreground="Blue"
+                            Content="{Binding Messages}"
+                            Visibility="{Binding EnvoiMailTermine}"  />
                     <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,4,0,26" Grid.RowSpan="2"   >
-                        <Label   Margin="67,10,5,10" Grid.Row="3"  Content="Sujet:" Height="90"/>
-                        <Button  Margin="20,0,20,20" Background="White" BorderBrush="White"  
+                        <Label   Margin="67,10,5,10" Grid.Row="3"  Content="Sujet:" Height="42"/>
+                        <Button  Margin="20,0,10,20" Background="White" BorderBrush="White"  
+                          Command="{Binding NouveauMailCommand}"     >
+                            <StackPanel>
+                                <Image Source="/Images/nouveau.png" Height="40"   />
+                                <TextBlock><Run Text="Nouveau"/></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button  Margin="20,0,10,20" Background="White" BorderBrush="White"  
                           Command="{Binding ListCommand}"     >
                             <StackPanel>
                                 <Image Source="/Images/List-Icon.svg.png" Height="40"   />
-                                <TextBlock><Run Text="Liste brouillons"/></TextBlock>
+                                <TextBlock><Run Text="Historique"/></TextBlock>
                             </StackPanel>
                         </Button>
-                        <Button Margin="20,0,20,5"  Background="White" BorderBrush="White" 
+                        <Button Margin="20,0,20,0"  Background="White" BorderBrush="White" 
                                  ToolTip="Ajouter une signature"  Command="{Binding SignCommand}"  >
                             <StackPanel>
                                 <Image Source="/Images/signature.png" Height="40"    />
                                 <TextBlock><Run Text="Signature"/></TextBlock>
                             </StackPanel>
                         </Button>
-
-                        <Button   ToolTip="Supprimer la signature" Background="White" BorderBrush="White" Height="80" 
+              
+                        <Button   ToolTip="Supprimer la signature" Background="White" BorderBrush="White" Height="50" 
                                 Command="{Binding DeleteLogoCommand}">
-                            <Image Height="60"
+                            <Image Height="40"
                               Source="{Binding CurrentMailing.signature }" Margin="17,0,18,0" />
                         </Button>
+                        <Border Margin="10" BorderBrush="Black" BorderThickness="1" >
+                        <StackPanel Height="80"  Width="110" Background="Beige"  >
+                            <Label Content="Liste des champs"  HorizontalAlignment="Center" Foreground="Red"/>
+                            <TextBlock Text= "&lt;nom>"       HorizontalAlignment="Center"/>
+                            <TextBlock Text= "&lt;prenom>"    HorizontalAlignment="Center" />
+                            <TextBlock Text= "&lt;civilite>"  HorizontalAlignment="Center"   />
+                        </StackPanel>
+                       </Border>
+
 
                     </StackPanel>
                     <Button  Grid.Row="4" Grid.Column="0" Background="White" BorderBrush="White" 
@@ -197,7 +225,8 @@
                             <TextBlock><Run Text="Pièces jointes"/></TextBlock>
                         </StackPanel>
                     </Button>
-                    <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"  Orientation="Horizontal" Margin="0,4,4,0">
+                    <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" 
+                                Orientation="Horizontal" Margin="0,4,4,0" >
 
                         <!-- ligne 4   -->
                         <ListView x:Name="PjBox"  ItemsSource="{Binding PiecesJointes}"   
@@ -244,10 +273,9 @@
                     <!-- Affichage des destinataires -->
                     <TextBlock Grid.Row="2" Grid.Column="2" Text="Destinataires" Margin="42,5,18,0"/>
                     <Border BorderBrush="BlueViolet" BorderThickness="0.5" Grid.Row="3" Grid.Column="2" Margin="0,0,10,0" Grid.ColumnSpan="2" >
-                        <ListView  ItemsSource="{Binding ListEnvoi}" 
-                      SelectedItem="{Binding CurrentListEnvoi}" IsSynchronizedWithCurrentItem="True"       
-                      ScrollViewer.VerticalScrollBarVisibility="Visible"
-                      ScrollViewer.CanContentScroll="False" >
+                        <ListView x:Name="lvEnvoi" ItemsSource="{Binding ListEnvoi}" 
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ScrollViewer.CanContentScroll="False"   >
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="VerticalContentAlignment"   Value="Stretch"/>
@@ -261,9 +289,14 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Button Content="x" ToolTip=" "
-                                                    Foreground="Black"
-                                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, 
-                                                    AncestorType={x:Type TabControl}}, Path=DataContext.AnnulDestinataireCommand}"/>
+                                                    Foreground="Black"  >
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <i:InvokeCommandAction Command="{Binding ElementName=lvEnvoi, Path=DataContext.AnnulDestinataireCommand}"
+                                                               CommandParameter="{Binding}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </Button>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -271,11 +304,9 @@
                             </ListView.View>
                         </ListView>
                     </Border>
-
-
                 </Grid>
             </TabItem>
-            <TabItem Header="Destinataires" Margin="100,0,-200,0"  >
+            <TabItem Header="Contacts" Margin="100,0,-200,0"    IsEnabled="{Binding Onglet2Enabled}" >
                 <Grid Margin="1,0,0,0">
                     <StackPanel>
                         <GroupBox Header="Recherche" Margin="10,10,1084,10" Padding="10">
@@ -289,17 +320,13 @@
                         </GroupBox>
                         <GroupBox Header="Catégories" Margin="10,10,1084,10" Padding="10">
                             <StackPanel HorizontalAlignment="Left" Width="167" Margin="0,0,-7,0">
-                                <CheckBox IsChecked="{Binding Bt.Usager,Mode=TwoWay}" Content="Usagers"/>
-                                <CheckBox IsChecked="{Binding Bt.Personalite,Mode=TwoWay}" Content="Personalités"/>
-                                <CheckBox IsChecked="{Binding Bt.Presse,Mode=TwoWay}" Content="Presse"/>
+                                <RadioButton  IsChecked="{Binding Bt.Usager,Mode=TwoWay}" Content="Inscrits"/>
+                                <RadioButton  IsChecked="{Binding Bt.Personalite,Mode=TwoWay}" Content="Elus(es)"/>
+                                <RadioButton  IsChecked="{Binding Bt.Presse,Mode=TwoWay}" Content="Presse"/>
+                                <RadioButton  IsChecked="{Binding Bt.Test,Mode=TwoWay}" Content="Contacts Test"/>
                             </StackPanel>
                         </GroupBox>
-                        <GroupBox Header="Adhérents" Margin="10,10,1079,10" Padding="10">
-                            <StackPanel>
-                                <CheckBox IsChecked="{Binding Bt.Inscrit}"     Content="Inscrits"/>
-                                <CheckBox IsChecked="{Binding Bt.N_inscrit}" Content="Non inscrits"/>
-                            </StackPanel>
-                        </GroupBox>
+
                         <GroupBox Header="Fiches sélectionnées" Margin="10,10,1079,10" Padding="10">
                             <StackPanel>
                                 <CheckBox IsChecked="{Binding Bt.Fiche_Selectionnes}"     Content="Filtrer"/>
@@ -314,19 +341,21 @@
                         </GroupBox>
                     </StackPanel>
                     <StackPanel Margin="217,20,175,16">
-                        <ListView x:Name="lvUsers" ItemsSource="{Binding ListDestinataires}" 
+                        <ListView x:Name="lvUsers" ItemsSource="{Binding ListDestinataires}"                  
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       ScrollViewer.CanContentScroll="False"
                       MaxHeight="550"
                       HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                       util:GridViewSort.AutoSort="True" Height="550" >
+                            
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDoubleClick">
                                     <i:InvokeCommandAction 
-                                 Command="{Binding ModifFicheDestinataire}"               
-                                    CommandParameter="{Binding ElementName=lvUsers, Path=SelectedItem}"/>
+                                      Command="{Binding ModifFicheDestinataire}"               
+                                      CommandParameter="{Binding ElementName=lvUsers, Path=SelectedItem}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
+                            
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="VerticalContentAlignment" Value="Top"/>
@@ -335,43 +364,47 @@
                             </ListView.ItemContainerStyle>
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header=" " >
+                                    <GridViewColumn Width="30" >
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <CheckBox IsChecked="{Binding selected}"/>
+                                                <CheckBox Name="checked" IsChecked="{Binding selected}"  >
+                                                <!--
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Checked">
+                                                            <i:InvokeCommandAction Command="{Binding ElementName=lvUsers, Path=DataContext.SelectionContactCommand}"
+                                                               CommandParameter="{Binding}"/>
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="Unchecked">
+                                                            <i:InvokeCommandAction Command="{Binding ElementName=lvUsers, Path=DataContext.SelectionContactCommand}"
+                                                              CommandParameter="{Binding}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                    -->
+                                                </CheckBox>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="100" Header="Catégories"                             
-                                 util:GridViewSort.PropertyName="categorie">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding categorie,Converter={StaticResource categorie}}" TextAlignment="Center" />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="100"  Header="Adhérent"                             
-                                util:GridViewSort.PropertyName="adherent">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding adherent,Converter={StaticResource adherent}}" TextAlignment="Center" />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="50" Header="Civilité"   DisplayMemberBinding="{Binding civilité}"   />
+                                    <GridViewColumn Width="50" Header="Civilité"   DisplayMemberBinding="{Binding civilité}"
+                                     util:GridViewSort.PropertyName="civilité"/>
                                     <GridViewColumn Width="150" Header="Nom"       DisplayMemberBinding="{Binding nom}"
                                  util:GridViewSort.PropertyName="nom"/>
                                     <GridViewColumn Width="100" Header="Prénom"    DisplayMemberBinding="{Binding prenom}"
                                  util:GridViewSort.PropertyName="prenom"/>
-                                    <GridViewColumn Width="200" Header="E-mail"    DisplayMemberBinding="{Binding email}"/>
-                                    <GridViewColumn Width="100" Header="Titre"     DisplayMemberBinding="{Binding titre}"/>
+                                    <GridViewColumn Width="200" Header="E-mail"    DisplayMemberBinding="{Binding email}"
+                                        util:GridViewSort.PropertyName="email"/>
+                                    <GridViewColumn Width="100"    DisplayMemberBinding="{Binding titre}" >
+                                        <GridViewColumnHeader
+                                               Content="Titre"
+                                                 Visibility="Hidden"
+                                                />
+                                    </GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem Header="Envoi mail" Margin="200,-2,-300,0"  Visibility="{Binding Bt.Onglet3IsVisible}">
+            <TabItem  x:Name="onglet3" Header="Envoi mail" Margin="200,0,-300,0"  Visibility="{Binding Bt.Onglet3IsVisible}">
                 <Grid Margin="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="182*"/>
@@ -379,11 +412,11 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel>
                         <StackPanel Height="375">
-                            <TextBlock  Text="Smpt actif: ">
-                                <TextBlock Text="{Binding CurrentSmtp.host}"   Foreground="Red" />
-                        </TextBlock>
+                            <Label  Content="Smpt actif: " />
+                            <Label Content="{Binding CurrentSmtp.host}"     Foreground="Red" />
+                            <Label Content="{Binding CurrentSmtp.compte}"   Foreground="Red" />
                         </StackPanel>
-                        <StackPanel  Visibility="{Binding Bt.IsEnvoye}" >
+                        <StackPanel  >
                             <Button Margin="20,0,20,20"  Background="White" BorderBrush="White" Command="{Binding SendCommand}"   >
                                 <StackPanel>
                                     <Image Source="/Images/envoiCourriel-96.png" Height="40"   />
@@ -391,9 +424,8 @@
                                 </StackPanel>
                             </Button>
                         </StackPanel>
-
                     </StackPanel>
-                    <ListView x:Name="lvUsers4" Grid.Column="1" ItemsSource="{Binding ListEnvoi}" 
+                    <ListView x:Name="lvUsers4" Grid.Column="1" ItemsSource="{Binding ListEnvoi,Mode=TwoWay}" 
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       ScrollViewer.CanContentScroll="False" Grid.ColumnSpan="2">
                         <ListView.ItemContainerStyle>
@@ -408,22 +440,19 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel>
-                                                <RichTextBox>
-                                                    <FlowDocument>
-                                                        <Paragraph>
-                                                            <Label  Content="{Binding email}"    />
-                                                        </Paragraph>
-                                                    </FlowDocument>
-                                                </RichTextBox>
-                                                <toolkit:RichTextBox  x:Name="TextBox"  BorderBrush="Gray" 
-                                             Text="{Binding contenu}" FontSize="12"  ScrollViewer.VerticalScrollBarVisibility="Auto"  >
-                                                    <toolkit:RichTextBox.Resources>
-                                                        <Style TargetType="{x:Type Paragraph}">
-                                                            <Setter Property="Margin" Value="0" />
-                                                        </Style>
-                                                    </toolkit:RichTextBox.Resources>
-                                                </toolkit:RichTextBox>
-                                                <Image Height="60"   HorizontalAlignment="Left"  Source="{Binding logo }"  />
+                                                <StackPanel>
+                                                  <Label  Content="{Binding email}" IsEnabled="False"    />
+                                                   
+                                                    <toolkit:RichTextBox  x:Name="TextBox"  BorderBrush="Gray" 
+                                                         Text="{Binding contenu}"  ScrollViewer.VerticalScrollBarVisibility="Auto"  >
+                                                        <toolkit:RichTextBox.Resources>
+                                                            <Style TargetType="{x:Type Paragraph}">
+                                                                <Setter Property="Margin" Value="0" />
+                                                            </Style>
+                                                        </toolkit:RichTextBox.Resources>
+                                                    </toolkit:RichTextBox>
+                                                    <Image Height="60"   HorizontalAlignment="Left"  Source="{Binding logo }"  />
+                                                </StackPanel>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -431,161 +460,16 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-
+                    <Label
+                        Grid.Column="1" VerticalAlignment="Bottom" Content="Liste des mails restants à diffuser" 
+                            FontSize="30"
+                            HorizontalAlignment="Center"
+                            VerticalContentAlignment="Bottom"
+                            Foreground="Blue"                   
+                            Visibility="{Binding EnvoiMailTermine}"  />
                 </Grid>
             </TabItem>
-            <TabItem Header="Documents envoyés" Margin="600,-2,-700,0" >
-                <Grid  ShowGridLines="True" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="130"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="230"/>
-                        <ColumnDefinition Width="20"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,4,0,26" Grid.RowSpan="2"   >
-                        <Label   Margin="67,10,5,10" Grid.Row="3"  Content="Sujet:" Height="90"/>
-                        <Button  Margin="20,0,20,20" Background="White" BorderBrush="White"  
-                          Command="{Binding ListCommand2}"     >
-                            <StackPanel>
-                                <Image Source="/Images/List-Icon.svg.png" Height="40"   />
-                                <TextBlock><Run Text="Liste envois"/></TextBlock>
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                    <TextBlock Grid.Row="3"  Grid.Column="1"  FontSize="35" ><Run/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run Text="&#x9;"/><Run Text="ONGLET EST EN COURS DE DEVELOPPEMENT"/></TextBlock>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Paramtres" Margin="700,-2,-798,0" >
-
-                <StackPanel>
-                    <StackPanel Height="500">
-                        <ListView x:Name="lvsmtp"                                  
-                                  Width="700"
-                                  ItemsSource="{Binding ListSmtp}"
-                                  SelectedItem="{Binding CurrentSmtp}" IsSynchronizedWithCurrentItem="True" 
-                                  VerticalAlignment="Center"
-                          ScrollViewer.VerticalScrollBarVisibility="Visible"
-                          ScrollViewer.CanContentScroll="False" Grid.ColumnSpan="2">
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="VerticalContentAlignment"   Value="Top"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseDoubleClick">
-                                    <i:InvokeCommandAction 
-                                     Command="{Binding  SmtpSelectCommand  }"
-                                     CommandParameter="{Binding ElementName=lvsmtp, Path=SelectedItem}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Host" Width="150" >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding host}" TextAlignment="Center"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Port " Width="50" >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding port}" TextAlignment="Center"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="login " Width="250" >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding compte}" TextAlignment="Center"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Mot de passe " Width="100" >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding mdp}" TextAlignment="Center"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Actif" Width="100" >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding actif}" TextAlignment="Center"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </StackPanel>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Button x:Name="button" Content="Nouveau serveur" Height="50" Grid.ColumnSpan="2" Margin="22,18,1140,17" Command="{Binding AddSmtpCommand}" />
-                        <StackPanel Grid.Column="1" >
-                            <Label HorizontalContentAlignment="Center" FontSize="14" Content="Compte SMTP"   />
-                            <util:CustomGrid  Margin="300,0"  ShowCustomGridLines="True"
-                             GridLineBrush="Black" GridLineThickness="1">
-                                <util:CustomGrid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </util:CustomGrid.RowDefinitions>
-                                <util:CustomGrid.ColumnDefinitions>
-                                    <ColumnDefinition Width="174*" />
-                                    <ColumnDefinition Width="156*" />
-                                    <ColumnDefinition Width="18*"/>
-                                    <ColumnDefinition Width="174*" />
-                                    <ColumnDefinition Width="173*" />
-                                </util:CustomGrid.ColumnDefinitions>
-                                <TextBlock   TextAlignment="Center" Grid.Row="1" Grid.Column="0"  Text="Host"  />
-                                <TextBox                          Grid.Row="1" Grid.Column="1"  Text="{Binding CurrentSmtp.host}" Grid.ColumnSpan="2" />
-                                <TextBlock TextAlignment="Center" Grid.Row="1" Grid.Column="3" Text="Port"/>
-                                <TextBox                          Grid.Row="1" Grid.Column="4" Text="{Binding CurrentSmtp.port}" />
-                                <TextBlock TextAlignment="Center" Grid.Row="2" Grid.Column="0" Text="Login" />
-                                <TextBox                          Grid.Row="2" Grid.Column="1" Text="{Binding CurrentSmtp.compte}" Grid.ColumnSpan="2" />
-                                <TextBlock TextAlignment="Center" Grid.Row="2" Grid.Column="3" Text="Mot depasse"/>
-                                <TextBox                          Grid.Row="2" Grid.Column="4" Text="{Binding CurrentSmtp.mdp}" />
-
-                            </util:CustomGrid>
-                            <Grid  Margin="300,0,300,0"  ShowGridLines="True" >
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Button Grid.Row="0" Grid.Column="0"    Content="Enregistrer"     Command="{Binding UpdateSmtpCommand }"   />
-                                <Button Grid.Row="0" Grid.Column="1"    Content="Supprimer"       Command="{Binding DeleteSmtpCommand}"    />
-                            </Grid>
-
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
-            </TabItem>
+     
         </TabControl>
     </Grid>
 </Window>

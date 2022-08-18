@@ -1,4 +1,5 @@
-﻿using AulpagMailing.Models;
+﻿using AulpagMailing.Interfaces;
+using AulpagMailing.Models;
 using AulpagMailing.Services;
 using AulpagMailing.ViewModels;
 using System.Windows;

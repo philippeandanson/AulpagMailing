@@ -92,6 +92,7 @@ namespace AulpagMailing.Controls
 
         public static string GetPropertyName(DependencyObject obj)
         {
+            if (obj == null) return null;
             return (string)obj.GetValue(PropertyNameProperty);
         }
 

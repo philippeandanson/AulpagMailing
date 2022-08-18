@@ -1,0 +1,64 @@
+﻿<Window x:Class="AulpagMailing.Views.AutresParametres"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        HorizontalAlignment="Stretch"
+        Title="Autres Paramètres" 
+        ResizeMode="NoResize" 
+        Height="400" Width="500" >
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="70" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7"/>
+            <ColumnDefinition Width="176"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Paramètres"  HorizontalAlignment="Center" FontSize="30" Grid.ColumnSpan="3"  />
+
+        
+        
+
+        <Label  Grid.Row="1" Grid.Column="1"    Content="E-mail de copie"  
+                 VerticalAlignment="Center" 
+                 HorizontalAlignment="Right" Height="26" Margin="0,24" Width="92"    />
+        <TextBox Grid.Row="1" Grid.Column="2"  Text="{Binding copie_email}"                  
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Stretch" 
+                   Margin="10" ></TextBox>
+        <Label  Grid.Row="2" Grid.Column="1"    Content="Position de la police par défaut"  
+                 VerticalAlignment="Center" 
+                 HorizontalAlignment="Right"   />
+        <TextBox Grid.Row="2" Grid.Column="2"  Text="{Binding position_font}"  
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Left"
+                   Width="50"
+                   Margin="10" />
+        <Label  Grid.Row="3" Grid.Column="1"    Content="Taille de la police par défaut"  
+                 VerticalAlignment="Center" 
+                 HorizontalAlignment="Right"   />
+        <TextBox Grid.Row="3" Grid.Column="2"  Text="{Binding taille_font}"  
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Left"
+                   Width="50"
+                   Margin="10" />
+        <Button x:Name="closeButton" Content="Enregistrer" 
+                Grid.Column="2" HorizontalAlignment="Left"
+                Margin="19,33,0,0" 
+                Grid.Row="4" 
+                VerticalAlignment="Top" 
+                Width="75"
+                Command="{Binding UpdateParametresCommand}"    >
+        </Button>
+    </Grid>
+</Window>

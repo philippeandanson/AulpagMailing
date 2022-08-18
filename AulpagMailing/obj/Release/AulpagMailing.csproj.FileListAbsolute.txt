@@ -117,7 +117,6 @@ C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\bin\Releas
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\bin\Release\ru\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\bin\Release\sv\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\bin\Release\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
-C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\AulpagMailing.csprojAssemblyReference.cache
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\DocumentsList.g.cs
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\FicheDestinataire.g.cs
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\Mailing.g.cs
@@ -129,7 +128,6 @@ C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Releas
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\FicheDestinataire.baml
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\Mailing.baml
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\AulpagMailing.g.resources
-C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\AulpagMailing.Migrations.init.resources
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\AulpagMailing.Properties.Resources.resources
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\AulpagMailing.csproj.GenerateResource.cache
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\AulpagMailing.csproj.CoreCompileInputs.cache
@@ -138,3 +136,19 @@ C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Releas
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\AulpagMailing.csproj.CopyComplete
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\AulpagMailing.exe
 C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\AulpagMailing.pdb
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\bin\Release\RtfPipe.dll
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\bin\Release\System.Drawing.Common.dll
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\bin\Release\System.Drawing.Common.xml
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\DocumentsEnvoyes.g.cs
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\DocumentsEnvoyes.baml
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\MenuPrincipal.g.cs
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\MenuPrincipal.baml
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\AulpagMailing.csprojAssemblyReference.cache
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\App.baml
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\Parametres.g.cs
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\Parametres.baml
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\Contacts.g.cs
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\Contacts.baml
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\AulpagMailing.TrustInfo.xml
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\AutresParametres.baml
+C:\Users\phili\source\repos\AulpagMailing\AulpagMailing\AulpagMailing\obj\Release\Views\AutresParametres.g.cs

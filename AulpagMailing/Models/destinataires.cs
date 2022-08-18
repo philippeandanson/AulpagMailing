@@ -19,9 +19,13 @@ namespace AulpagMailing.Models
         private int    _categorie;    
         private string _mail;
         private string _titre;
+        private string _numadherent;
 
-        [Key]
+        [Key, Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int idcontact { get; set; }
+        [Key, Column(Order = 2)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id_destinataire { get; set; }       
         public string nom
         { get { return _nom; } set { _nom = value; OnPropertyChanged(nameof(nom)); } }
@@ -34,17 +38,21 @@ namespace AulpagMailing.Models
         public int categorie
         { get { return _categorie; } set { _categorie = value; OnPropertyChanged(nameof(categorie)); } }
         public string titre       
-        { get { return _titre; }set { _titre = value; OnPropertyChanged(nameof(titre));} }
-        public bool adherent       { get; set; }
+        { get { return _titre; }set { _titre = value; OnPropertyChanged(nameof(titre));} }     
         [NotMapped]
         public bool selected
         { get { return _selected; } set { _selected = value; OnPropertyChanged(nameof(selected)); } }
+        public string phone { get; set; }
+        public string mobile { get; set; }
         public bool? tutoiement { get; set; } = false;
         public string adresse { get; set; }
         public string ville { get; set; }
         public string cp { get; set; }
         public DateTime? debut { get; set; }
         public DateTime? fin { get; set; }
+        public DateTime? collecte { get; set; }
+        public string numadherent
+        { get { return _numadherent; } set { _numadherent = value; OnPropertyChanged(nameof(numadherent)); } }
 
         public destinataires() { }
         public destinataires(string _nom,string _prenom,string _civilite,string _email,int _categorie,string _titre,bool _adherent)
@@ -55,7 +63,7 @@ namespace AulpagMailing.Models
             email = _email;
             categorie = _categorie;
             titre = _titre;
-            adherent = _adherent;
+         
         }
      
         public event PropertyChangedEventHandler PropertyChanged;
@@ -66,46 +74,87 @@ namespace AulpagMailing.Models
         }
     }
 
+    [Table("adhesion")]
+    public class Adhesion
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int idAdhesion { get; set; }
+        public int idMembre   { get; set; }
+        public string categorie  { get; set; }
+        public decimal montant    { get; set; }
+        public DateTime dated { get; set; }
+        public DateTime datef { get; set; }
+
+    }
+
+    [Table("adresse")]
+    public class Adresse
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int idAdresse  { get; set; }
+        public int idMembre   { get; set; }
+        public string adresse { get; set; }
+        public string ville   { get; set; }
+        public string cp      { get; set; }
+
+    }
+    [Table("telephone")]
+    public class Telephone
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int idPhone       { get; set; }
+        public int idMembre          { get; set; }
+        public string type           { get; set; }
+        public string phone          { get; set; }
+        public DateTime date_constat { get; set; }
+    }
+    public class journaux
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int idPresse { get; set; }
+        public int idMembre { get; set; }
+        public string journal { get; set; }
+        public string email { get; set; }
+    }
+    public class elus
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int idElu { get; set; }
+        public int idMembre { get; set; }
+        public string fonction { get; set; }
+        public string territoire { get; set; }
+    }
+
     [Table("Destinataires_export")]
     [DelimitedRecord(";")]
     [IgnoreEmptyLines()]
     [IgnoreFirst()]
     public class Destinataires_export
     {
+        public int id_destinataire { get; set; }
         public string nom { get; set; }
         public string prenom { get; set; }
         public string civilité { get; set; }
         public string email { get; set; }
-        public int categorie { get; set; }    
-        public bool adherent { get; set; }
+        public int categorie { get; set; }
         public string titre { get; set; }
 
         public Destinataires_export() { }
 
-        public Destinataires_export(string _nom, string _prenom, string _civilite, string _email, int _categorie, bool _adherent, string _titre)
+        public Destinataires_export(int _id_destinataire,string _nom, string _prenom, string _civilite, string _email, int _categorie, string _titre)
         {
+            id_destinataire = _id_destinataire;
             nom = _nom;
             prenom = _prenom;
             civilité = _civilite;
             email = _email;
-            categorie = _categorie;          
-            adherent = _adherent;
+            categorie = _categorie;
             titre = _titre;
         }
-    }
-
-    public class Complement_presse
-    {
-        [Key]
-        public int id_destinataire { get; set; }
-        public string journal { get; set; }
-        public string email { get; set; }
-    }
-    public class Complement_personalite
-    {
-        [Key]
-        public int id_destinataire { get; set; }
-        public string fonction { get; set; }
-        public string territoire { get; set; }
     }
 }

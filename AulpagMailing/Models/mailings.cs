@@ -19,10 +19,33 @@ namespace AulpagMailing.Models
        public int             type_mailing   { get; set; }
        public string          signature      { get; set; }
        public int?            id_theme       { get; set; }
-    
+       [NotMapped]
+       public int?            envoye          { get; set; }
+       [NotMapped]
+       public int?           reste           { get; set; }
+       [NotMapped]
+       public int?           total           { get; set; }
 
         [ForeignKey("fk_mailing")]
         public List<Envoi> Items { get; set; }
+    }
+
+
+    public class liste_mailing
+    {
+      
+        public int id_mailing { get; set; }
+        public string objet_mailing { get; set; }
+        public string contenu { get; set; }
+        public DateTime date_creation { get; set; }
+        public DateTime date_envoi { get; set; }
+        public int type_mailing { get; set; }
+        public string signature { get; set; }
+        public int? id_theme { get; set; }      
+        public int? envoye { get; set; }       
+        public int? reste { get; set; }    
+        public int? total { get; set; }     
+      
     }
 
     public class pjs : INotifyPropertyChanged

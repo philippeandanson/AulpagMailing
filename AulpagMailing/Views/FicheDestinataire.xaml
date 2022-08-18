@@ -16,7 +16,7 @@
     </i:Interaction.Behaviors>
 
     <StackPanel Margin="40">
-        <Label x:Name="label" FontSize="18" Content="Fiche destinataire" Margin="160,0,0,0" />
+        <Label x:Name="label" FontSize="18" Content="Fiche contact" Margin="160,0,0,0" />
         <Grid  >
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -33,7 +33,7 @@
                 <ColumnDefinition Width="160"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-         
+
             <TextBlock  Grid.Row="0" Grid.Column="0"  Text="Civilité" Margin="40,5,30,0"/>
             <TextBox    Grid.Row="0" Grid.Column="1"  Text="{Binding CurrentDestinataire.civilité}" />
             <TextBlock  Grid.Row="1" Grid.Column="0" Text="Nom" Margin="40,8,30,0"/>
@@ -62,12 +62,14 @@
                 </Grid>
             </GroupBox>
             <TextBlock  Grid.Row="4" Grid.Column="0" Text="E-mail" Margin="40,7,30,0"/>
-            <TextBox    Grid.Row="4" Grid.Column="1" Text="{Binding CurrentDestinataire.email}" />
-            <TextBlock  Grid.Row="5" Grid.Column="0" Text="Catégorie" VerticalAlignment="Center" Margin="40,10,0,10"/>
-            <ComboBox   Grid.Row="5" Grid.Column="1"  ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategorie}" Margin="0,15,0,16"  />
-            <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" Margin="10">
-                <TextBlock  Text="Adhérent" Margin="0,0,10,0"/>
-                <CheckBox   IsChecked="{Binding CurrentDestinataire.adherent}" Margin="0,0,50,0"  Height="19"  />
+            <TextBox    Grid.Row="4" Grid.Column="1" Text="{Binding CurrentDestinataire.email}" Height="23" VerticalAlignment="Top" />
+            <TextBlock  Grid.Row="5" Grid.Column="0" Text="Mobile"  Margin="40,7,30,0"/>
+            <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" >
+                <TextBox  Text="{Binding CurrentDestinataire.mobile}"  Width="200"/>
+                <TextBlock  Text="Téléphone" Width="100"  VerticalAlignment="Center" TextAlignment="Center" />
+                <TextBox   Text="{Binding CurrentDestinataire.phone}" Width="200" />
+            </StackPanel>
+            <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" >
                 <TextBlock  Text="Tutoiement" Margin="0,0,10,0"/>
                 <CheckBox   IsChecked="{Binding CurrentDestinataire.tutoiement}"  Height="19"  />
             </StackPanel>
@@ -78,9 +80,7 @@
                 <TextBlock  Text="Date fin" Margin="100,0,10,0" VerticalAlignment="Center" />
                 <DatePicker SelectedDate="{Binding CurrentDestinataire.fin}" VerticalContentAlignment="Center"/>
             </StackPanel>
-            <TextBlock  Grid.Row="8" Grid.Column="0" Text="Titre" Margin="40,4,30,0"/>
-            <TextBox    Grid.Row="8" Grid.Column="1" Text="{Binding  CurrentDestinataire.titre}" />
-           
+
         </Grid>
 
 

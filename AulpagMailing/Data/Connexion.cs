@@ -12,6 +12,9 @@ namespace AulpagMailing.Data
         public DbSet<Envoi>         envois        { get; set; }
         public DbSet<Smtp>          smtps         { get; set; }
         public DbSet<Themes>        themes        { get; set; }
+        public DbSet<Adhesion>      adhesions     { get; set; }
+        public DbSet<parametres>    parameters    { get; set; }
+      
 
 
         public BaseContext() : base(nameOrConnectionString: "Default") { }
