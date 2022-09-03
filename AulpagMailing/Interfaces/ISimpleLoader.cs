@@ -1,4 +1,4 @@
-﻿namespace AulpagMailing.Services
+﻿namespace AulpagMailing.Interfaces
 {
     public interface ISimpleLoader
     {

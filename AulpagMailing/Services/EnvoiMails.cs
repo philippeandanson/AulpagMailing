@@ -12,12 +12,17 @@ namespace AulpagMailing.Services
 {
 
     public class EnvoiMail
-    {    
+    {   
+        
+        public static string email_test { get; set; }
         
         public static  SmtpClient Connexion 
         {
+            
             get
             {
+               
+                email_test = Database.GetParametres[1].parametre;
                 var smtp = Database.GetSmtpActif;
                 
                 SmtpClient SmtpServer = new SmtpClient
@@ -31,6 +36,7 @@ namespace AulpagMailing.Services
                     Timeout = 20000,
                     EnableSsl =smtp.port > 400  
                 };
+               
                 return SmtpServer;
             }
         }
@@ -38,7 +44,9 @@ namespace AulpagMailing.Services
         public static  string Mail(Envoi contact, mailings brouillon, ObservableCollection<pjs> ListPieces)       
         {                      
                 try
-                {                    
+                {
+                   if (App.EnvoiTest) contact.email = EnvoiMail.email_test;  // Envoi des mails dans la boite de mail test
+
                     string from    = "contact@paris-granville.org";                
                     string copie = App.Staticparametres.FirstOrDefault(x => x.id_parametre == 1).parametre;
                     string subject =  brouillon.objet_mailing;

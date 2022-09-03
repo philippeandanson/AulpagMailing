@@ -9,8 +9,8 @@
         xmlns:command="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize" 
-        Title="Historiques" Height="450" Width="900">
+        ResizeMode="CanResizeWithGrip" 
+        Title="Historiques" Height="450" Width="1150">
 
     <i:Interaction.Behaviors>
         <Helpers:CloseWindowBehavior CloseTrigger="{Binding CloseTrigger2}" />
@@ -33,12 +33,15 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <ListView x:Name="TvBox" ItemsSource="{Binding MailingsList}"                   
+            <ListView x:Name="TvBox" ItemsSource="{Binding MailingsList}" 
+                  Margin="10,10,0,10"               
                   VerticalAlignment="Stretch"
-                  SelectedItem="id_mailing"  
+                  SelectedItem="id_mailing"                     
                   ScrollViewer.VerticalScrollBarVisibility="Visible"
-                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                      ScrollViewer.CanContentScroll="False"
+                  ScrollViewer.CanContentScroll="False"                     
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Stretch"
+                     
                       MaxHeight="350">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
@@ -116,16 +119,43 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel>
-                                        <TextBlock Text="{Binding objet_mailing}" TextAlignment="Center"/>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding objet_mailing}" TextAlignment="Center"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Envoyé le" Width="100">
+                        <GridViewColumn Header="Cible" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel>
-                                        <TextBlock Text="{Binding date_envoi,StringFormat={}{0:dd/MM/yyyy},Converter={StaticResource  datenulle}}" TextAlignment="Center"/>
+                                        <TextBlock  TextAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Sélection" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock  TextAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Sign" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock  TextAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Pj" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock  TextAlignment="Center"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

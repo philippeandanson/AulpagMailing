@@ -120,7 +120,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel>
-                                        <TextBlock Text="{Binding date_envoi,StringFormat={}{0:dd/MM/yyyy},Converter={StaticResource  StatusConverter}}" TextAlignment="Center"/>
+ 
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

@@ -7,6 +7,7 @@ using System.Data.OleDb;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using System.IO;
 
 namespace AulpagMailing.Data
 {
@@ -358,7 +359,11 @@ namespace AulpagMailing.Data
                 using (BaseContext context = new BaseContext())
                 {
                     List<pjs> pieces = (from item in context.pieces select item).Where(x => x.fk_mailing == mailing.id_mailing).ToList();
-                    foreach (var item in pieces) obj.Add(item);
+                    foreach (var item in pieces)
+                    {
+                        item.affiche_piece= Path.GetFileName(item.piece);
+                        obj.Add(item);
+                    }
                     return obj;
                 }
 
@@ -502,7 +507,7 @@ namespace AulpagMailing.Data
             }
         }
 
-        public static void UpdateEnvoi(Envoi item)
+        public static void  UpdateEnvoi(Envoi item)
         {
             lock (locker)
             {
@@ -600,7 +605,7 @@ namespace AulpagMailing.Data
             }
         }
 
-        public static void UpdateParametres(parametres item)
+        public static void  UpdateParametres(parametres item)
         {
             lock (locker)
             {
@@ -613,9 +618,7 @@ namespace AulpagMailing.Data
                 }
             }
         }
-
-    
-
+   
         public static List<parametres> GetParametres
         {
             get
@@ -845,6 +848,68 @@ namespace AulpagMailing.Data
 
 
           
+
+        }
+
+       public static ObservableCollection<destinataires> GetAdherents()
+        {
+
+         string SQL = "	WITH sql1 AS (	" + 
+        "SELECT adhesion.\"idMembre\",	" +
+        " max(adhesion.dated) AS dated	" +
+        " FROM adhesion	" +
+        " GROUP BY adhesion.\"idMembre\"	" +
+        " ORDER BY adhesion.\"idMembre\"	" +
+        " ), sql2 AS (	" +
+        " SELECT a_1.\"idMembre\" ,	" +
+        " a_1.categorie as c_tarif,	" +
+        " a_1.montant,	" +
+        " a_1.dated,	" +
+        " a_1.datef	" +
+        " FROM adhesion a_1	" +
+        " JOIN sql1 b_1 ON a_1.\"idMembre\" = b_1.\"idMembre\" AND a_1.dated = b_1.dated	" +
+        "  ORDER BY a_1.\"idMembre\"	" +
+        " )	" +
+        "	 SELECT Distinct " +
+        "       a.id_destinataire,	" +
+        "       a.idcontact,	" +
+        "       a.civilité,	" +
+        "       a.titre,	" +
+        "       a.nom,	" +
+        "	    a.prenom,  	" +
+        "	    a.email,	" +
+        "	    a.phone ,	" +
+        "	    a.mobile ,	" +
+        "	    a.mobile ,	" +
+        "       a.tutoiement ,"  +
+        "       a.adresse ," +
+        "       a.ville ," +
+        "       a.cp ," +
+        "       a.debut ," +
+        "       a.fin ," +
+        "       a.collecte , " +
+        "	    a.numadherent,	" +
+        "	    a.categorie,	" +
+        "	    b.dated + INTERVAL '365 day' as dated	" +
+        "	   FROM destinataires a	" +
+        "	     LEFT JOIN sql2 b ON a.id_destinataire = b.\"idMembre\"	" +
+        "	     where dated is not null	" +
+        "	    ORDER BY a.nom;	";
+
+            ObservableCollection<destinataires> obj = new ObservableCollection<destinataires>();
+            using (BaseContext context = new BaseContext())
+            {
+                List<destinataire2> destinatairesQuery2 = context.Database.SqlQuery<destinataire2>(SQL).ToList<destinataire2>();
+                List<destinataires> destinatairesQuery = context.Database.SqlQuery<destinataires>(SQL).ToList<destinataires>();
+
+                foreach (var item in destinatairesQuery)
+                {
+                    var temp = destinatairesQuery2.First(x => x.id_destinataire == item.id_destinataire);
+                    item.dated = temp.dated;                    
+                    obj.Add(item);
+                }
+                return obj;               
+            }
 
         }
     }

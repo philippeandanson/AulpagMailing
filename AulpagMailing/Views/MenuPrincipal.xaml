@@ -208,7 +208,7 @@
                     </ItemsPanelTemplate>
                 </StatusBar.ItemsPanel>
                 <StatusBarItem HorizontalAlignment="Right" Width="155">
-                    <TextBlock Name="lblCursorPosition" Text="Mailling Version 2.2.0.0" />
+                    <TextBlock Name="lblCursorPosition" Text="Mailling Version 2.2.1.0" />
                 </StatusBarItem>
                 <Separator Grid.Column="1" />
                 <StatusBarItem Grid.Column="2">

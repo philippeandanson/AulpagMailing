@@ -10,7 +10,7 @@ namespace AulpagMailing.Models
     [DelimitedRecord(";")]
     [IgnoreEmptyLines()]
     [IgnoreFirst()]
-    public class destinataires : INotifyPropertyChanged
+    public partial class destinataires : INotifyPropertyChanged
     {
         private bool   _selected;
         private string _prenom;
@@ -71,6 +71,22 @@ namespace AulpagMailing.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
+        }
+    }
+
+    public partial class destinataires
+    {
+        [NotMapped]
+        public DateTime? dated { get; set; }
+        public bool cotis_a_jour
+        {
+            get
+            {
+                if (dated > DateTime.Now)
+                    return true;
+                else
+                    return false;
+            }
         }
     }
 
@@ -156,5 +172,32 @@ namespace AulpagMailing.Models
             categorie = _categorie;
             titre = _titre;
         }
+    }
+
+    public class destinataire2 
+    {
+        [Key, Column(Order = 1)]
+        public int idcontact { get; set; }
+        [Key, Column(Order = 2)]
+        public int id_destinataire { get; set; }
+        public string nom { get; set; }     
+        public string prenom { get; set; }   
+        public string civilité { get; set; }      
+        public string email { get; set; }
+        public int categorie { get; set; }   
+        public string titre { get; set; }  
+        public string phone { get; set; }
+        public string mobile { get; set; }
+        public bool? tutoiement { get; set; } = false;
+        public string adresse { get; set; }
+        public string ville { get; set; }
+        public string cp { get; set; }
+        public DateTime? debut { get; set; }
+        public DateTime? fin { get; set; }
+        public DateTime? collecte { get; set; }
+        public string numadherent { get; set; }
+        public DateTime? dated { get; set; }      
+ 
+
     }
 }

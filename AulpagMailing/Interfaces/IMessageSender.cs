@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AulpagMailing.Helpers
+namespace AulpagMailing.Interfaces
 {
     public interface IMessageSender { }
 }

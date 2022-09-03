@@ -12,6 +12,7 @@ namespace AulpagMailing
     {
         public static  SmtpClient SmtpServer { get; set; }
         public static List<parametres> Staticparametres = new List<parametres>();
+        public static bool EnvoiTest { get; set; }
 
     }
 }

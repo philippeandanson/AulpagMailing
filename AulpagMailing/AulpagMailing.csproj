@@ -405,26 +405,27 @@
     <Compile Include="Helpers\CategorieConverter.cs" />
     <Compile Include="Helpers\Converter.cs" />
     <Compile Include="Helpers\DateNulleConverter.cs" />
-    <Compile Include="Helpers\IMessageSender.cs" />
     <Compile Include="Helpers\InverseBoolConverter.cs" />
     <Compile Include="Helpers\MyXamlFormatter.cs" />
     <Compile Include="Helpers\StatusConverter.cs" />
     <Compile Include="Helpers\Type_mailingConverter.cs" />
+    <Compile Include="Interfaces\IMessageSender.cs" />
+    <Compile Include="Models\Categories.cs" />
     <Compile Include="Models\Boutons.cs" />
-    <Compile Include="Models\destinataires.cs" />
+    <Compile Include="Models\Destinataires.cs" />
     <Compile Include="Models\Parametres.cs" />
     <Compile Include="Models\Presse.cs" />
     <Compile Include="Models\Smtp.cs" />
     <Compile Include="Models\Themes.cs" />
     <Compile Include="Services\EnvoiMails.cs" />
     <Compile Include="Services\FichiersCsv.cs" />
-    <Compile Include="Services\ISimpleLoader.cs" />
+    <Compile Include="Interfaces\ISimpleLoader.cs" />
     <Compile Include="Services\MainViewModel.cs" />
     <Compile Include="Services\MessageCenter.cs" />
     <Compile Include="Services\RichTextService.cs" />
     <Compile Include="Interfaces\Iparameter.cs" />
     <Compile Include="Services\RelayCommand.cs" />
-    <Compile Include="Services\TestConnexionInrernet.cs" />
+    <Compile Include="Services\TestConnexionInternet.cs" />
     <Compile Include="ViewModels\ContactsViewModel.cs" />
     <Compile Include="ViewModels\FicheDestinataireViewModel.cs" />
     <Compile Include="ViewModels\MailingsViewModel.cs" />
@@ -496,7 +497,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\mailings.cs" />
+    <Compile Include="Models\Mailings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -616,6 +617,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\erreur.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ModeAvion.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets')" />

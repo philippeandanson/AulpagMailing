@@ -65,7 +65,7 @@ namespace AulpagMailing.ViewModels
         {
 
             destinataires destinataire = de as destinataires;
-            bool t1 = destinataire.categorie == 1 && bt.Usager;
+         //   bool t1 = destinataire.categorie == 1 && bt.Usager;
             bool t2 = destinataire.categorie == 2 && bt.Personalite;
             bool t3 = destinataire.categorie == 3 && bt.Presse;
 
@@ -73,7 +73,7 @@ namespace AulpagMailing.ViewModels
             bool t7 = destinataire.selected && bt.Fiche_Selectionnes;
             bool t8 = bt.Fiche_Selectionnes;
 
-            return ((t7 || ((t1 || t2 || t3) && t6)) && !t8) || t7 || (t6 && !string.IsNullOrEmpty(bt.Recherche));
+            return ((t7 || (( t2 || t3) && t6)) && !t8) || t7 || (t6 && !string.IsNullOrEmpty(bt.Recherche));
         }   // Filtre les destinataires
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -8,57 +8,125 @@
         HorizontalAlignment="Stretch"
         Title="Autres Paramètres" 
         ResizeMode="NoResize" 
-        Height="400" Width="500" >
+        Height="400" Width="800" >
 
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition  Height="70" />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="7"/>
-            <ColumnDefinition Width="176"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Label Content="Paramètres"  HorizontalAlignment="Center" FontSize="30" Grid.ColumnSpan="3"  />
+    <StackPanel>
 
-        
-        
+        <Label Content="Paramètres"  HorizontalAlignment="Center" FontSize="30"  Width="158" Grid.Column="1" />
 
-        <Label  Grid.Row="1" Grid.Column="1"    Content="E-mail de copie"  
+        <StackPanel Orientation="Horizontal" Height="35">
+            <Label   Content="E-mail de copie"
+                 Margin="10,0"                
                  VerticalAlignment="Center" 
-                 HorizontalAlignment="Right" Height="26" Margin="0,24" Width="92"    />
-        <TextBox Grid.Row="1" Grid.Column="2"  Text="{Binding copie_email}"                  
-                   VerticalAlignment="Center" 
-                   HorizontalAlignment="Stretch" 
-                   Margin="10" ></TextBox>
-        <Label  Grid.Row="2" Grid.Column="1"    Content="Position de la police par défaut"  
+                 Width="150"      />
+            <TextBox  Text="{Binding copie_email}"                  
+                  VerticalAlignment="Center" 
+                  HorizontalAlignment="Stretch" 
+                  Height="18"
+                  Width="300"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Height="35">
+            <Label   Content="E-mail de test"
+                 Margin="10,0"                
                  VerticalAlignment="Center" 
-                 HorizontalAlignment="Right"   />
-        <TextBox Grid.Row="2" Grid.Column="2"  Text="{Binding position_font}"  
-                   VerticalAlignment="Center" 
-                   HorizontalAlignment="Left"
-                   Width="50"
-                   Margin="10" />
-        <Label  Grid.Row="3" Grid.Column="1"    Content="Taille de la police par défaut"  
-                 VerticalAlignment="Center" 
-                 HorizontalAlignment="Right"   />
-        <TextBox Grid.Row="3" Grid.Column="2"  Text="{Binding taille_font}"  
-                   VerticalAlignment="Center" 
-                   HorizontalAlignment="Left"
-                   Width="50"
-                   Margin="10" />
-        <Button x:Name="closeButton" Content="Enregistrer" 
-                Grid.Column="2" HorizontalAlignment="Left"
-                Margin="19,33,0,0" 
-                Grid.Row="4" 
-                VerticalAlignment="Top" 
+                 Width="150"
+                    />
+            <TextBox  Text="{Binding test_email}"                  
+                  VerticalAlignment="Center" 
+                  HorizontalAlignment="Stretch" 
+                  Height="18"
+                  Width="300"/>
+        </StackPanel>
+
+
+        <StackPanel   Orientation="Horizontal" Height="35" >
+            <Label Width="140" Content="Police par défaut" Margin="10,0"  VerticalAlignment="Center"  />
+            <Border Margin="10,0 " BorderBrush="BlueViolet" BorderThickness="1" >
+                <ToolBar  x:Name="mainToolBar" Width="300" >
+                    <!-- Font family combo box  -->
+                    <ComboBox x:Name="FontFamilyCombo" 
+                          ItemsSource="{Binding MFont}"  
+                          SelectedIndex     ="{Binding position_font}"                                                                    
+                          DisplayMemberPath="Name"
+                          IsEditable="True"
+                          IsSynchronizedWithCurrentItem="True"
+                          Width="150"  />
+             
+                    <!-- Font size combo box -->
+                    <ComboBox 
+                        x:Name="FontSizeCombo"  
+                        Width="40" Margin="20,0" 
+                        IsEditable="True"
+                        SelectedIndex ="{Binding taille_font}" />
+                </ToolBar>
+            </Border>
+        </StackPanel>
+        <TextBlock Text="Répertoires par défaut" 
+               FontSize="12" 
+               TextDecorations="Underline"
+               VerticalAlignment="Bottom"    
+               Margin="170,15,0,0" 
+               />
+        <StackPanel Orientation="Horizontal" Height="35">
+            <Button  Margin="10,0" HorizontalContentAlignment="Left"  
+                     Background="White" BorderBrush="White" 
+                     Command="{Binding SignCommand}" 
+                     Width="150" >
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Images/signature.png" Height="15"    />
+                    <TextBlock Margin="10,0" Text="Signature"/>
+                </StackPanel>
+            </Button>
+            <TextBox  Text="{Binding Signature}" 
+                  IsEnabled="False"
+                  VerticalAlignment="Center" 
+                  HorizontalAlignment="Stretch" 
+                  Height="18"
+                  Width="600"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Height="35">
+            <Button  Margin="10,0"
+                     HorizontalContentAlignment="Left"
+                     Background="White" BorderBrush="White" 
+                     Command="{Binding Piece1Command}" 
+                     Width="150" >
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Images/piece_jointe.png" Height="15"    />
+                    <TextBlock Margin="10,0" Text="Pièces jointes 1"/>
+                </StackPanel>
+            </Button>
+            <TextBox  Text="{Binding Piece1}"  
+                  IsEnabled="False"
+                  VerticalAlignment="Center" 
+                  HorizontalAlignment="Stretch" 
+                  Height="18"
+                  Width="600"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Height="35">
+            <Button  Margin="10,0"    
+                     Background="White" BorderBrush="White" 
+                     Command="{Binding Piece2Command}" 
+                     Width="150"
+                      HorizontalContentAlignment="Left">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Images/piece_jointe.png" Height="15"    />
+                    <TextBlock Margin="10,0" Text="Pièces jointes 2"  />
+                </StackPanel>
+            </Button>
+            <TextBox  Text="{Binding Piece2}"
+                  IsEnabled="False"
+                  VerticalAlignment="Center" 
+                  HorizontalAlignment="Stretch" 
+                  Height="18"
+                  Width="600"/>
+        </StackPanel>
+
+        <Button x:Name="closeButton" Content="Enregistrer"
+                Margin="0,30"
+                HorizontalAlignment="Center"                                          
                 Width="75"
-                Command="{Binding UpdateParametresCommand}"    >
+                Command="{Binding UpdateParametresCommand}" Height="30"    >
         </Button>
-    </Grid>
+    </StackPanel>
 </Window>

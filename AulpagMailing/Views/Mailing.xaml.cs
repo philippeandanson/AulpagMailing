@@ -2,12 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
-using System.Linq;
+using System.Drawing.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Markup;
 using System.Windows.Media;
 
 
@@ -24,7 +22,9 @@ namespace AulpagMailing.Views
             InitializeComponent();      
             DataContext = new MailingsViewModel();
 
-            var installedFontCollection = new System.Drawing.Text.InstalledFontCollection();
+          
+
+            InstalledFontCollection installedFontCollection = new System.Drawing.Text.InstalledFontCollection();
 
             // Get the array of FontFamily objects.
             var fontFamilies = installedFontCollection.Families;
@@ -34,15 +34,26 @@ namespace AulpagMailing.Views
                 FontFamilyCombo.Items.Add(mfont);
             }
 
-    //       FontFamilyCombo.ItemsSource = Fonts.SystemFontFamilies.OrderBy(fontFamily => fontFamily.Source);
-      
+            //       FontFamilyCombo.ItemsSource = Fonts.SystemFontFamilies.OrderBy(fontFamily => fontFamily.Source);
+
+            FontSizeCombo.Items.Add("8");
+            FontSizeCombo.Items.Add("9");
             FontSizeCombo.Items.Add("10");
+            FontSizeCombo.Items.Add("11");
             FontSizeCombo.Items.Add("12");
             FontSizeCombo.Items.Add("14");
+            FontSizeCombo.Items.Add("16");
             FontSizeCombo.Items.Add("18");
+            FontSizeCombo.Items.Add("20");
+            FontSizeCombo.Items.Add("22");
             FontSizeCombo.Items.Add("24");
+            FontSizeCombo.Items.Add("28");
             FontSizeCombo.Items.Add("36");
             FontSizeCombo.Items.Add("42");
+            FontSizeCombo.Items.Add("72");
+
+
+
             foreach (var item in App.Staticparametres)
             {
                 int a = 6;
@@ -53,6 +64,7 @@ namespace AulpagMailing.Views
                         if (t) FontSizeCombo.SelectedIndex = int.Parse(item.parametre); else FontSizeCombo.SelectedIndex= 0;
                         break;
                     case 2:
+                     
                         bool y = int.TryParse(item.parametre, out a);
                         if (y) FontFamilyCombo.SelectedIndex = int.Parse(item.parametre); else FontFamilyCombo.SelectedIndex=0;
                         break;

@@ -20,11 +20,11 @@ namespace AulpagMailing.Models
        public string          signature      { get; set; }
        public int?            id_theme       { get; set; }
        [NotMapped]
-       public int?            envoye          { get; set; }
+       public int?            envoye         { get; set; }
        [NotMapped]
-       public int?           reste           { get; set; }
+       public int?            reste          { get; set; }
        [NotMapped]
-       public int?           total           { get; set; }
+       public int?            total          { get; set; }
 
         [ForeignKey("fk_mailing")]
         public List<Envoi> Items { get; set; }
@@ -52,15 +52,17 @@ namespace AulpagMailing.Models
     {
         private int _fk_mailing;
         private string _piece;
+        private string _affiche_piece;
 
         [Key, Column(Order = 1)]
         public int fk_mailing
         { get { return _fk_mailing; }   set { _fk_mailing = value; OnPropertyChanged(nameof(fk_mailing));} }
-        [Key, Column(Order = 2)]
-       
-        
+        [Key, Column(Order = 2)]            
         public string   piece
        { get { return _piece; } set { _piece = value; OnPropertyChanged(nameof(piece)); } }
+        [NotMapped]
+        public string affiche_piece
+        { get { return _affiche_piece; } set { _affiche_piece = value; OnPropertyChanged(nameof(affiche_piece)); } }
 
 
         public event PropertyChangedEventHandler PropertyChanged;

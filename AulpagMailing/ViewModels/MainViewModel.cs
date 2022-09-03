@@ -18,12 +18,11 @@ namespace AulpagMailing.ViewModels
     public partial class  MainWindowViewModel: INotifyPropertyChanged
 	{
 
-
-
         #region variables envoi des emails     
         public mailings CurrentMailing { get; set; }
         public ObservableCollection<Envoi> ListEnvoi { get; set; }
         public ObservableCollection<Envoi> Journal { get; set; }
+        // ProgressBar  Gerer le type de l'indicateur
         private bool isIndeterminate;
         public bool IsIndeterminate
         {
@@ -88,8 +87,7 @@ namespace AulpagMailing.ViewModels
         #endregion
 
         public MainWindowViewModel()
-		   {
-
+		{
             var t = Database.GetFirstContact();
             if (t!=null && (t.collecte != null)) Version = "Dernière intégration " + t.collecte.Value.ToString("dd/MM/yyyy");           
             worker = new BackgroundWorker();
@@ -102,7 +100,7 @@ namespace AulpagMailing.ViewModels
                
             Messenger.Default.Register<object>(this, (message) =>
             {
-                CurrentMailing = message as mailings;
+                CurrentMailing = message as mailings;            
                 worker.DoWork += WorkerDoWork2;
                 worker.RunWorkerAsync();
             });
@@ -139,19 +137,12 @@ namespace AulpagMailing.ViewModels
             });
 		}
 
-        /*
-                public void Load()
-                {
-                    worker.RunWorkerAsync();
-                }  
-        */
-
         #region procédures
         private void WorkerDoWork(object sender, DoWorkEventArgs e)
         {
             IsIndeterminate = true;
 
-            if (!TestConnexionInrernet.IsConnectedToInternet())
+            if (!TestConnexionInternet.IsConnectedToInternet())
             {
                 MessageBox.Show("Connexion internet défailllante");
                 return;
@@ -192,6 +183,7 @@ namespace AulpagMailing.ViewModels
         }
         private void WorkerDoWork2(object sender, DoWorkEventArgs e)
         {
+            var mode = App.EnvoiTest;
             IsIndeterminate = false;
             worker.ReportProgress(1);//shows progress bar 
             App.SmtpServer = EnvoiMail.Connexion;
@@ -215,7 +207,7 @@ namespace AulpagMailing.ViewModels
                         break;
                     }
                     envoi.date_envoi = DateTime.Now;
-                    Database.UpdateEnvoi(envoi);
+                    if(!App.EnvoiTest) Database.UpdateEnvoi(envoi);  // Si mode test on enregistre pas
                 }
 
             }

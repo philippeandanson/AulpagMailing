@@ -2,7 +2,7 @@
 
 namespace AulpagMailing.Services
 {
-    class TestConnexionInrernet
+    class TestConnexionInternet
     {
         //Creating the extern function...  
         [DllImport("wininet.dll")]
